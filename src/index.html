@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Playfair+Display:wght@500&family=REM&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>To-do-List</title>
+  </head>
+  <body>
+    <header>
+      <nav id="to_do_header" class="to_do_header">
+        <div class="nav_left">
+          <i class="fa-solid fa-bars fa-1x"></i>
+          <span class="title_todo">To-do List</span>
+        </div>
+        <div class="nav_right">
+          <ul id="light_dark" class="light_dark" data-color="0">
+            <button id="light" class="btn btn_light_mode current_mode">
+              L
+            </button>
+            <button id="dark" class="btn btn_dark_mode">D</button>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="tasks_boards" class="gen_wrapper">
+        <div class="content_section">
+          <div class="tasks_screen tasks_panel">
+            <div class="account_tasks">
+              <p id="total_tasks" class="total_tasks">
+                7 <span class="icon_totalTask">abc</span>
+              </p>
+
+              <span class="litteral_title">Total Tasks</span>
+            </div>
+            <div class="flow_tasks">
+              <div class="completed_tasks">
+                <div class="load_content flex_center">
+                  <ul class="drawn_tasks">
+                    <i></i>
+                    <p class="label_tasks">Completed</p>
+                  </ul>
+                  <progress
+                    id="tasks_completed"
+                    class="tasks_completed progress_bar"
+                    min="0"
+                    max="100"
+                    value="34"
+                  ></progress>
+                </div>
+              </div>
+              <div class="pending_tasks">
+                <div class="load_content flex_center">
+                  <ul class="drawn_tasks">
+                    <i></i>
+                    <p class="label_tasks">Pending</p>
+                  </ul>
+
+                  <progress
+                    id="tasks_pending"
+                    class="tasks_pending progress_bar"
+                    min="0"
+                    max="100"
+                    value="64"
+                  ></progress>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="current_branch_week tasks_panel">
+            <div class="title_week">This Week</div>
+            <p id="week_range" class="week_range">
+              19th July, 2023 - 25th July, 2023
+            </p>
+            <div class="flow_container">
+              <div class="flow_chart">
+                <div class="high_chart chart_size">
+                  <span class="account_priority">0</span>
+                  <div class="chart_priority">
+                    <div id="high_diagram" class="high_diagram"></div>
+                    <span class="type_priority">HIGH</span>
+                  </div>
+                </div>
+                <div class="medium_chart chart_size">
+                  <span class="account_priority">0</span>
+                  <div class="chart_priority">
+                    <div id="medium_diagram" class="medium_diagram"></div>
+                    <span class="type_priority">MEDIUM</span>
+                  </div>
+                </div>
+                <div class="normal_chart chart_size">
+                  <span class="account_priority">0</span>
+                  <div class="chart_priority">
+                    <div id="normal_diagram" class="normal_diagram"></div>
+                    <span class="type_priority">NORMAL</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flow_caption">
+                <div class="elt_capt">
+                  <span class="circle_symbol red_circle"></span> HIGH
+                </div>
+                <div class="elt_capt">
+                  <span class="circle_symbol yellow_circle"></span> MEDIUM
+                </div>
+                <div class="elt_capt">
+                  <span class="circle_symbol blue_circle"></span> NORMAL
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
