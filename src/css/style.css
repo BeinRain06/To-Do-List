@@ -10,6 +10,10 @@
 font-family: 'Playfair Display', serif;
 font-family: 'REM', sans-serif; */
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
 ul {
   list-style: none;
 }
@@ -31,6 +35,10 @@ div {
   align-items: center;
 }
 
+.blue_title {
+  color: #222f5b;
+}
+
 @media (min-width: 226px) {
   .fa-bars {
     width: 20px;
@@ -38,10 +46,24 @@ div {
     background-color: red;
   }
 
+  .fa-plus {
+    color: #222f5b;
+  }
+
+  .fa-xmark {
+    color: brown;
+  }
+
+  .fa-check {
+    color: #fff;
+  }
+
   body {
     position: relative;
+    top: 0;
+    left: 0;
     width: 100vw;
-    height: 100vh;
+    padding-bottom: 1rem;
     background-color: #f4f4f4;
   }
 
@@ -446,6 +468,390 @@ div {
   }
 
   .blue_circle {
+    background-color: #7b5deb;
+  }
+
+  /* Adding Tasks */
+
+  .adding_tasks {
+    width: 100vw;
+    height: 60px;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .driving_day {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .current_day {
+    font-size: 12px;
+  }
+
+  .add_task {
+    padding: 0.25rem;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .icon_plus {
+    padding: 0.75rem;
+    background-color: #ddd;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  /* calendar container */
+
+  .calendar_container {
+    position: relative;
+    width: 100vw;
+    margin: 0.5rem 0;
+  }
+
+  .list_days-week {
+    width: min(240px, 100vw);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .day {
+    flex-basis: 14%;
+    padding: 0.25rem;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .day.active_day {
+    color: #fff;
+    background-color: #222f5b;
+  }
+
+  .day_name {
+    font-size: 12px;
+  }
+
+  /* list_container */
+  .list_container {
+    width: 100vw;
+    padding: 0.75rem;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .list_content {
+    width: 100%;
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .list_title {
+    width: 100%;
+    padding: 0.35rem 0;
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+
+  .holding_tasks {
+    width: 100%;
+    height: 12.8rem;
+    height: 12rem;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    scrollbar-width: thin;
+    overflow-y: auto;
+  }
+
+  .no_tasks {
+    width: 64%;
+    padding: 0.25rem;
+    margin: 0 auto;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .task_match_content {
+    position: relative;
+    width: calc(100% - 1rem);
+    height: 45px;
+    padding: 1rem;
+    background-color: #e7e6e6;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    box-shadow: 0px 0px 3px #22222210;
+  }
+
+  .task_match_content ::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: #00000031;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  .task_match_content.done ::before {
+    background-color: #f4f76a;
+  }
+
+  .task_match_content[data-priority="high"] ::before {
+    background-color: #c22439;
+  }
+
+  .task_match_content[data-priority="medium"] ::before {
+    background-color: #f4f76a;
+  }
+  .task_match_content[data-priority="normal"] ::before {
+    background-color: #7b5deb;
+  }
+
+  .task_match {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .task_description {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .circle_match {
+    width: 20px;
+    height: 20px;
+    /* margin-top: 0.2rem; */
+    border-radius: 50%;
+    border: 2px solid #222f5b;
+    display: grid;
+    place-items: center;
+  }
+
+  .circle_match.done {
+    background-color: #30c048;
+    border: 2px solid #30c048;
+  }
+
+  .remove_task {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid brown;
+    display: grid;
+    place-items: center;
+  }
+
+  /* modal Tasks Container*/
+
+  .modal_calendar_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .modal_calendar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .modalTasks_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5rem;
+    background-color: #00000031;
+    z-index: 5;
+  }
+
+  .modalTasks_wrapper {
+    position: relative;
+    top: 60%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 24px;
+  }
+
+  .gen_title_modal {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #6d6bc5;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
+
+  .modalTasks_content {
+    padding: 1rem;
+  }
+
+  .input_content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input_label {
+    padding: 0.75rem 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .input_title {
+    width: 100%;
+    height: 40px;
+  }
+
+  .input_date {
+    width: 100%;
+    height: 40px;
+  }
+
+  .confirm_selection {
+    width: 100%;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn_submit,
+  .btn_cancel {
+    width: 5rem;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background-color: #6d6bc5;
+    font-size: 14px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+  }
+
+  .btn_cancel {
+    color: #222;
+    background-color: #cfcbcb;
+  }
+
+  /*priority selection*/
+  .wrapper_priority {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .box_priority {
+    display: flex;
+    /*  justify-content: flex-start; */
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .outer_circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    display: grid;
+    place-items: center;
+  }
+
+  .inner_circle {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-radius: 50%;
+  }
+
+  .outer_circle[data-priority="high"] {
+    background-color: #c22439;
+  }
+
+  .outer_circle[data-priority="medium"] {
+    background-color: #f4f76a;
+  }
+
+  .outer_circle[data-priority="normal"] {
+    background-color: #7b5deb;
+  }
+
+  .outer_circle.active_priority[data-priority="high"] {
+    background-color: #fff;
+    border: 2px solid #c22439;
+  }
+
+  .outer_circle.active_priority[data-priority="medium"] {
+    background-color: #fff;
+    border: 2px solid #f4f76a;
+  }
+
+  .outer_circle.active_priority[data-priority="normal"] {
+    background-color: #fff;
+    border: 2px solid #7b5deb;
+  }
+
+  .outer_circle.active_priority[data-priority="high"] .inner_circle {
+    background-color: #c22439;
+  }
+
+  .outer_circle.active_priority[data-priority="medium"] .inner_circle {
+    background-color: #f4f76a;
+  }
+
+  .outer_circle.active_priority[data-priority="normal"] .inner_circle {
     background-color: #7b5deb;
   }
 }

@@ -13,6 +13,73 @@
     <title>To-do-List</title>
   </head>
   <body>
+    <div id="modal_calendar_container" class="modal_calendar_container">
+      <div id="modal_calendar" class="modal_calendar"></div>
+    </div>
+    <div id="modalTasks_container" class="modalTasks_container">
+      <div class="modalTasks_wrapper">
+        <h3 class="gen_title_modal">Add Task</h3>
+        <div class="modalTasks_content">
+          <form id="task_form" class="task_form">
+            <div class="input_content">
+              <label for="task_in" class="input_label blue_title">
+                Task Title</label
+              >
+              <input
+                type="text"
+                name="task_in"
+                id="task_in"
+                class="input_title"
+              />
+            </div>
+            <div class="input_content">
+              <label for="date_selected" class="input_label blue_title">
+                Date</label
+              >
+              <input
+                type="date"
+                name="date_selected"
+                id="date_selected"
+                class="input_date"
+              />
+            </div>
+            <div class="wrapper_priority">
+              <label for="priority" class="input_label blue_title"
+                >Priority:</label
+              >
+              <div class="box_priority">
+                <div
+                  id="high_priority"
+                  class="outer_circle"
+                  data-priority="high"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+                <div
+                  id="medium_priority"
+                  class="outer_circle"
+                  data-priority="medium"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+                <div
+                  id="normal_priority"
+                  class="outer_circle active_priority"
+                  data-priority="normal"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+              </div>
+              <div class="confirm_selection">
+                <button type="submit" class="btn_submit">Add</button>
+
+                <button class="btn_cancel">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <header>
       <nav id="to_do_header" class="to_do_header">
         <div class="nav_left">
@@ -116,6 +183,88 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="adding_tasks adding_tasks">
+        <div class="driving_day">
+          <h3 class="label_day blue_title">Today</h3>
+          <p class="current_day">19th July, Wednesday</p>
+        </div>
+
+        <button id="add_task" class="add_task">
+          <span class="icon_plus"><i class="fa-solid fa-plus fa-2x"></i></span>
+          <span class="label_add">Add Task</span>
+        </button>
+      </section>
+
+      <section id="calendar_container" class="calendar_container">
+        <ul id="list_days-week" class="list_days-week">
+          <li class="day active_day" data-id="0">
+            <p class="day_name">WED</p>
+            <h4 class="day_count blue_title">20</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">THU</p>
+            <h4 class="day_count">21</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">FRI</p>
+            <h4 class="day_count">22</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">SAT</p>
+            <h4 class="day_count">23</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">SUN</p>
+            <h4 class="day_count">24</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">MON</p>
+            <h4 class="day_count">25</h4>
+          </li>
+          <li class="day active_day" data-id="0">
+            <p class="day_name">TUE</p>
+            <h4 class="day_count">26</h4>
+          </li>
+        </ul>
+      </section>
+      <section id="list_container" class="list_container">
+        <div class="list_content">
+          <h5 class="list_title blue_title">Pending</h5>
+          <p class="no_tasks"><span>0</span> Pending Tasks</p>
+          <div id="holding_tasks" class="holding_tasks">
+            <div id="0" class="task_match_content" data-priority="high">
+              <div id="high_match" class="task_match">
+                <div class="task_description">
+                  <div id="circle_match" class="circle_match"></div>
+                  <div class="name_task">Typescript</div>
+                </div>
+                <div id="remove_task" class="remove_task">
+                  <i class="fa-solid fa-xmark"></i>
+                </div>
+              </div>
+            </div>
+            <div class="task_match_content" data-priority="normal">
+              <div id="high_match" class="task_match">
+                <div class="task_description">
+                  <div id="circle_match" class="circle_match done">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                  <div class="name_task">Typescript</div>
+                </div>
+                <div id="remove_task" class="remove_task">
+                  <i class="fa-solid fa-xmark"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="list_content">
+          <h5 class="list_title blue_title">Done</h5>
+          <p class="no_tasks"><span>0</span> Completed Tasks</p>
+          <div id="holding_tasks" class="holding_tasks"></div>
         </div>
       </section>
     </main>
