@@ -14,6 +14,42 @@ font-family: 'REM', sans-serif; */
   width: 10px;
 }
 
+body[theme="light"] {
+  --bg-body: #fcfdf2;
+  --bg-white: #fff;
+  --bg-light-yellow: #fdffae;
+  --bg-light-blue: #c5dff8;
+  --bg-medium-blue: #605e7c;
+  --bg-bluish-gray: #435b66;
+  --shadow-color: #eee;
+  --text-color: #323232;
+  --text-title: #222f5b;
+  --accent-color: #5d3fd3;
+  --form-text: #c5dff8;
+  --add-btn-color: #fff;
+  --calendar-hover: rgba(54, 69, 17, 0.65);
+  --calendar-bg: #fff;
+  --bg-list: #fff;
+}
+
+body[theme="dark"] {
+  --bg-body: #18191a;
+  --bg-white: #313131;
+  --bg-light-yellow: #4f200d;
+  --bg-light-blue: #38425e;
+  --bg-medium-blue: #38425e;
+  --bg-bluish-gray: #1e4047;
+  --shadow-color: #151515;
+  --text-color: rgba(255, 255, 255, 0.85);
+  --text-title: rgba(255, 255, 255, 0.85);
+  --accent-color: #005555;
+  --form-text: #005555;
+  --add-btn-color: #eee;
+  --calendar-hover: rgba(54, 69, 17, 0.65);
+  --calendar-bg: #545454;
+  --bg-list: #232323;
+}
+
 ul {
   list-style: none;
 }
@@ -28,15 +64,24 @@ div {
   justify-content: center;
 }
 
-.flex_center {
+.flex_column_center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.flex_row_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .blue_title {
   color: #222f5b;
+}
+input:focus {
+  background-color: #fafc98;
 }
 
 @media (min-width: 226px) {
@@ -53,11 +98,31 @@ div {
   }
 
   .fa-xmark {
+    position: relative;
+    left: 1px;
     color: brown;
   }
 
   .fa-check {
     color: #fff;
+  }
+
+  .fa-book {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--form-text);
+  }
+
+  .fa-list {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--text-color);
+  }
+
+  .fa-puzzle-piece {
+    position: relative;
+    top: 2px;
+    transform: scale(0.75);
   }
 
   body {
@@ -66,7 +131,7 @@ div {
     left: 0;
     width: 100vw;
     padding-bottom: 1rem;
-    background-color: #f4f4f4;
+    background-color: var(--bg-body);
   }
 
   /* header */
@@ -75,12 +140,12 @@ div {
     width: 100vw;
     height: 60px;
     padding: 1rem 0.75rem;
-    background-color: #222;
+    /*  background-color: #222; */
+    background-color: var(--bg-light-blue);
   }
   .to_do_header {
     width: 100%;
     height: 100%;
-    background-color: #f4f4f4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,15 +156,12 @@ div {
     left: -0.35rem;
     width: 60%;
     height: 100%;
-    display: flex;
     gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
     text-align: center;
   }
 
   .title_todo {
-    color: #222f5b;
+    color: var(--text-title);
     font-size: 24px;
     font-family: "Kaushan Script", cursive;
   }
@@ -108,9 +170,6 @@ div {
     /* position: relative; */
     width: 64px;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .light_dark {
@@ -140,7 +199,7 @@ div {
   .btn {
     position: relative;
     color: #fff;
-    background-color: #222f5b;
+    background-color: var(--accent-color);
     font-size: 12px;
     display: flex;
     justify-content: center;
@@ -200,7 +259,7 @@ div {
     width: 100vw;
     padding: 0.75rem;
     margin: 0;
-    background-color: green;
+    /* background-color: green; */
   }
 
   .content_section {
@@ -225,23 +284,15 @@ div {
   }
 
   .account_tasks {
-    width: 48%;
+    width: 49%;
     height: 120px;
     color: #fff;
-    background-color: #663030;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: var(--bg-bluish-gray);
   }
 
   .total_tasks {
     width: 80%;
     font-size: 14px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     text-align: center;
     gap: 0.25rem;
   }
@@ -261,23 +312,21 @@ div {
   }
 
   .flow_tasks {
-    width: 48%;
+    width: 49%;
     height: 120px;
-    color: #333;
-    background-color: #605e7c;
+    color: var(--text-color);
     font-family: "REM", sans-serif;
-    /*  gap: 0.25rem; */
   }
 
   .completed_tasks,
   .pending_tasks {
     width: 100%;
     height: 50%;
-    background-color: rgb(248, 161, 219);
+    background-color: var(--bg-light-yellow);
   }
 
   .pending_tasks {
-    background-color: #4e4961;
+    background-color: var(--bg-medium-blue);
   }
 
   .load_content {
@@ -288,17 +337,18 @@ div {
   .drawn_tasks {
     width: 100%;
     height: 20px;
-    padding: 0;
+    padding: 0 0.5rem;
     margin: 0;
-    text-align: left;
-    background-color: brown;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* text-align: left; */
   }
 
   .progress_bar {
     width: 100%;
     height: 4px;
     margin: 0.5rem 0;
-    background-color: #0000003a;
     background-color: #cfcbcb;
     border-radius: 12px;
   }
@@ -308,59 +358,44 @@ div {
   .current_branch_week {
     width: 100%;
     height: auto;
-    background-color: #ddd;
+    background-color: var(--calendar-bg);
     padding: 0 0.5rem;
     margin: 1rem 0;
   }
 
   .title_week {
+    color: var(--text-color);
     font-family: "Playfair Display", serif;
     font-size: 14px;
     font-weight: bold;
   }
 
   .week_range {
+    color: var(--text-color);
     font-size: 12px;
-    background-color: #222;
   }
 
   .flow_container {
     position: relative;
     top: -0.75rem;
     width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
+    height: 120px;
+    color: var(--text-color);
+    background-color: var(--bg-white);
+    background-color: var(--bg-list);
   }
 
   .flow_chart {
     flex-basis: 70%;
     height: 100%;
     padding: 0 0.5rem;
-    background-color: #222f5b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 0.35rem;
   }
-
-  /* .flow_chart :first-child {
-    background-color: #222;
-  }
-  .flow_chart :nth-child(2) {
-    background-color: #e29f9f;
-  }
-  .flow_chart :last-child {
-    background-color: #663030;
-  } */
 
   .chart_size {
     width: calc(45%);
     height: 100%;
     padding-top: 0.15rem;
-    color: #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -376,16 +411,17 @@ div {
   .chart_priority {
     width: 100%;
     height: 80%;
+    font-size: 9px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 0.15rem;
-    background-color: #fafc98;
+    /*  background-color: #fafc98; */
   }
 
   .high_diagram {
     width: 100%;
-    height: 4px;
+    height: 6px;
     background-color: #c22439;
     display: flex;
     flex-direction: column;
@@ -396,7 +432,7 @@ div {
 
   .medium_diagram {
     width: 100%;
-    height: 4px;
+    height: 6px;
     background-color: #f4f76a;
     display: flex;
     flex-direction: column;
@@ -407,7 +443,7 @@ div {
 
   .normal_diagram {
     width: 100%;
-    height: 4px;
+    height: 6px;
     background-color: #7b5deb;
     display: flex;
     flex-direction: column;
@@ -416,13 +452,7 @@ div {
     z-index: 5;
   }
 
-  .type_priority {
-    background-color: #923a3a;
-    font-size: 9px;
-  }
-
   .flow_caption {
-    /*  flex-basis: 20%; */
     width: 30%;
     height: 100%;
     display: flex;
@@ -430,15 +460,12 @@ div {
     justify-content: flex-start;
     align-items: center;
     gap: 0.25rem;
-    /* padding: 0.5rem; */
-    background-color: red;
   }
 
   .elt_capt {
     width: 100%;
     height: 0.75rem;
     padding-left: 0.25rem;
-    background-color: green;
     font-size: 9px;
     display: flex;
     flex-direction: row;
@@ -474,8 +501,10 @@ div {
 
   .adding_tasks {
     width: 100vw;
-    padding: 0 0.75rem;
-    margin: 1.5rem 0;
+    /* padding: 0 0.75rem; */
+    padding: 0 1.25rem;
+    margin: 0.5rem 0;
+    /*  background-color: red; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -498,6 +527,7 @@ div {
   .current_day {
     position: relative;
     top: -0.15rem;
+    color: var(--text-color);
     font-size: 0.9em;
   }
 
@@ -507,11 +537,11 @@ div {
     flex-basis: 30%;
     max-width: 8rem;
     padding: 0.25rem;
-    color: #fff;
-    background-color: #222f5b;
+    color: var(--add-btn-color);
+    background-color: var(--accent-color);
     font-size: 12px;
     cursor: pointer;
-    border: 1px solid #fff;
+    border: 1px solid var(--add-btn-color);
     border-radius: 12px;
     outline: none;
     display: flex;
@@ -523,15 +553,13 @@ div {
 
   .icon_plus {
     padding: 0.5rem;
-    background-color: #ddd;
+    background-color: var(--add-btn-color);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     flex-basis: 40%;
     max-width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
+
   .label_add {
     flex-basis: 70%;
     max-width: 70%;
@@ -543,7 +571,7 @@ div {
     position: relative;
     width: 100vw;
     margin: 0.5rem 0;
-    background-color: #222;
+    background-color: var(--bg-body);
   }
 
   .list_days-week {
@@ -568,11 +596,21 @@ div {
 
   .day.active_day {
     color: #fff;
-    background-color: #222f5b;
+    background-color: var(--accent-color);
   }
 
   .day_name {
     font-size: 12px;
+    color: var(--text-color);
+  }
+
+  .day_count {
+    color: var(--accent-color);
+  }
+
+  .day.active_day .day_name,
+  .day.active_day .day_count {
+    color: var(--add-btn-color);
   }
 
   /* list_container */
@@ -595,6 +633,8 @@ div {
   .list_title {
     width: 100%;
     padding: 0.35rem 0;
+    color: var(--accent-color);
+    font-weight: bold;
     display: flex;
     align-items: center;
     text-align: left;
@@ -605,10 +645,7 @@ div {
     height: 12.8rem;
     height: 12rem;
     padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    color: var(--text-color);
     gap: 0.5rem;
     scrollbar-width: thin;
     overflow-y: auto;
@@ -619,9 +656,6 @@ div {
     padding: 0.25rem;
     margin: 0 auto;
     font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
     gap: 0.5rem;
   }
@@ -631,7 +665,7 @@ div {
     width: calc(100% - 1rem);
     height: 45px;
     padding: 1rem;
-    background-color: #e7e6e6;
+    background-color: var(--bg-white);
     border-radius: 5px;
     display: flex;
     justify-content: flex-start;
@@ -683,9 +717,8 @@ div {
   .circle_match {
     width: 20px;
     height: 20px;
-    /* margin-top: 0.2rem; */
     border-radius: 50%;
-    border: 2px solid #222f5b;
+    border: 2px solid var(--bg-bluish-gray);
     display: grid;
     place-items: center;
   }
@@ -713,9 +746,6 @@ div {
     width: 100%;
     height: 100%;
     padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 10;
   }
 
@@ -744,7 +774,7 @@ div {
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
+    background-color: var(--bg-list);
     border-radius: 24px;
   }
 
@@ -753,13 +783,15 @@ div {
     display: flex;
     justify-content: center;
     text-align: center;
-    background-color: #6d6bc5;
+    color: var(--text-color);
+    background-color: var(--bg-bluish-gray);
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
   }
 
   .modalTasks_content {
     padding: 1rem;
+    color: var(--form-text);
   }
 
   .input_content {
@@ -796,8 +828,8 @@ div {
   .btn_cancel {
     width: 5rem;
     padding: 0.5rem 1rem;
-    color: #fff;
-    background-color: #6d6bc5;
+    color: var(--add-btn-color);
+    background-color: var(--accent-color);
     font-size: 14px;
     border-radius: 5px;
     outline: none;
@@ -805,23 +837,18 @@ div {
   }
 
   .btn_cancel {
-    color: #222;
-    background-color: #cfcbcb;
+    color: var(--bg-bluish-gray);
+    background-color: var(--add-btn-color);
   }
 
   /*priority selection*/
   .wrapper_priority {
     padding: 0.5rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 0.5rem;
   }
 
   .box_priority {
     display: flex;
-    /*  justify-content: flex-start; */
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
@@ -905,6 +932,12 @@ div {
     justify-content: flex-end;
   }
 
+  /*current week*/
+
+  .week_range {
+    font-size: 14px;
+  }
+
   /* calendar */
   .calendar_container {
     position: relative;
@@ -921,9 +954,10 @@ div {
   }
 
   .day {
+    /* background-color: var(--bg-white); */
     font-size: 18px;
     border-radius: 5px;
-    border: 2px solid #222f5b;
+    border: 2px solid var(--bg-body);
   }
 
   .day:before {
@@ -933,17 +967,13 @@ div {
     left: 2px;
     width: calc(100% - 4px);
     height: calc(100% - 4px);
-    border: 2px solid #fff;
+    border: 2px solid var(--bg-body);
   }
 
   .day_name {
     padding-top: 0.5rem;
     font-size: 10px;
-    /* background-color: green; */
   }
-  /*  .day_count {
-    background-color: red;
-  } */
 
   /* adding tasks*/
 
@@ -952,12 +982,10 @@ div {
   }
 
   .label_day {
-    background-color: brown;
-    font-size: min(calc(6vw - 5px), 26px);
+    font-size: min(calc(6vw - 5px), 24px);
   }
   .current_day {
-    font-size: min(calc(6vw - 5px), 22px);
-    background-color: #30c048;
+    font-size: min(calc(6vw - 5px), 20px);
   }
 
   .add_task {
@@ -967,7 +995,7 @@ div {
   /* tasks boards */
 
   .total_tasks {
-    font-size: 22px;
+    font-size: 32px;
     gap: 0.25rem;
   }
   .litteral_title,
@@ -987,12 +1015,11 @@ div {
     font-size: 18px;
   }
 
-  .account_priority {
-    font-size: 14px;
+  .chart_priority {
+    font-size: 12px;
   }
 
-  .type_priority {
-    background-color: #923a3a;
-    font-size: 11px;
+  .account_priority {
+    font-size: 14px;
   }
 }
