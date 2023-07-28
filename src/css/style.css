@@ -81,7 +81,7 @@ div {
   color: #222f5b;
 }
 input:focus {
-  background-color: #fafc98;
+  border: 2px solid var(--bg-light-yellow);
 }
 
 @media (min-width: 226px) {
@@ -632,6 +632,7 @@ input:focus {
     align-items: center;
     align-self: flex-end;
     gap: 0.25rem;
+    z-index: 5;
   }
 
   .icon_plus {
@@ -641,11 +642,13 @@ input:focus {
     border-bottom-left-radius: 5px;
     flex-basis: 40%;
     max-width: 40%;
+    z-index: -1;
   }
 
   .label_add {
     flex-basis: 70%;
     max-width: 70%;
+    z-index: -1;
   }
 
   /* calendar container */
@@ -657,10 +660,11 @@ input:focus {
     background-color: var(--bg-body);
   }
 
-  .list_days-week {
+  .list_days_week {
     width: 100vw;
     padding: 0;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     /* background-color: red; */
@@ -921,7 +925,7 @@ input:focus {
 
   .btn_cancel {
     color: var(--bg-bluish-gray);
-    background-color: var(--add-btn-color);
+    background-color: #eee;
   }
 
   /*priority selection*/

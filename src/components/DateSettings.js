@@ -3,15 +3,19 @@ import moment from "moment";
 class DateSettings {
   constructor() {
     this._currentDate = moment().format("Do MMMM, dddd");
+    this._setCurrentdate();
+    this._setWeekRange();
+    this._renderDateCards();
+    /* this_setDate(); */
   }
 
   /* public method*/
 
-  setCurrentdate() {
+  _setCurrentdate() {
     document.getElementById("current_day").innerHTML = this._currentDate;
   }
 
-  setWeekRange() {
+  _setWeekRange() {
     const start = moment().format("Do MMMM, YYYY");
 
     const end = moment().add(6, "days").format("Do MMMM, YYYY");
@@ -19,28 +23,25 @@ class DateSettings {
     document.getElementById("week_range").innerHTML = `${start} - ${end}`;
   }
 
-  setDateInput() {
-    document
-      .getElementById("date_input")
-      .setAttribute("min", moment().format("YYYY-MM-D"));
+  _setDateInput(dateInput) {
+    dateInput.setAttribute("min", moment().format("YYYY-MM-D"));
 
-    document
-      .getElementById("date_input")
-      .setAttribute("max", moment().add("6", "days").format("YYYY-MM-D"));
+    dateInput.setAttribute(
+      "max",
+      moment().add("6", "days").format("YYYY-MM-D")
+    );
   }
 
-  renderDateCards() {
+  _renderDateCards() {
     const dayIndex = [0, 1, 2, 3, 4, 5, 6];
     const currentWeek = document.getElementById("list_days_week");
 
     dayIndex.map((item, i) => {
-      const day = document.createElement("li");
+      let day = document.createElement("li");
 
       let current = moment().add(i, "days");
 
-      index === 0
-        ? day.classList.add("day active_day")
-        : day.classList.add("day");
+      day.className = i === 0 ? "day active_day" : "day";
 
       day.setAttribute("id", i);
       day.setAttribute("data-value", `${current.format("dddd, MMMM Do YYYY")}`);
@@ -53,6 +54,12 @@ class DateSettings {
       currentWeek.appendChild(day);
     });
   }
+
+  /* _setDate() {
+    this._setCurrentdate();
+    this._setWeekRange();
+    this._renderDateCards();
+  } */
 }
 
 export default DateSettings;

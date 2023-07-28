@@ -9,6 +9,9 @@ import "./css/style.css";
 
 class App {
   constructor() {
+    this._dateTemplate = new DateSettings();
+    this._setDateRange();
+
     document
       .getElementById("light")
       .addEventListener("click", this._changeTheme.bind(this, "light"));
@@ -17,13 +20,13 @@ class App {
       .getElementById("dark")
       .addEventListener("click", this._changeTheme.bind(this, "dark"));
 
-    document.getElementById("to_do_header").addEventListener("click", (e) => {
+    document.getElementById("view_app").addEventListener("click", (e) => {
       console.log(e.target);
     });
 
     document
       .getElementById("calendar_container")
-      .addEventListener("click", this._scheduleDay.bind(this, e));
+      .addEventListener("click", this._scheduleDay.bind(this));
 
     document
       .getElementById("add_task")
@@ -32,6 +35,10 @@ class App {
     document
       .getElementById("btn_cancel")
       .addEventListener("click", this._showModalTask.bind(this, "remove"));
+
+    /*  document
+      .getElementById("date_input")
+      .addEventListener("change", this._setDateRange.bind(this, e)); */
   }
 
   _changeTheme(type) {
@@ -42,10 +49,11 @@ class App {
     }
   }
 
-  _showModalTask(type) {
+  _showModalTask(matter, e) {
+    e.preventDefault();
     const modalTasks = document.getElementById("modalTasks_container");
 
-    type === "add"
+    matter === "add"
       ? (modalTasks.style.display = "block")
       : (modalTasks.style.display = "none");
   }
@@ -62,6 +70,15 @@ class App {
         ? day.classList.add("active_day")
         : day.classList.remove("active_day");
     });
+  }
+
+  _target() {
+    console.log(this);
+  }
+
+  _setDateRange() {
+    const dateInput = document.getElementById("date_input");
+    this._dateTemplate._setDateInput(dateInput);
   }
 }
 
