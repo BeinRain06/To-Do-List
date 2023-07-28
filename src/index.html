@@ -12,7 +12,7 @@
 
     <title>To-do-List</title>
   </head>
-  <body theme="light">
+  <body id="view_app" theme="light">
     <div id="modal_calendar_container" class="modal_calendar_container flex_row_center">
       <div id="modal_calendar" class="modal_calendar"></div>
     </div>
@@ -38,9 +38,10 @@
               >
               <input
                 type="date"
-                name="date_selected"
-                id="date_selected"
+                name="date"
+                id="date_input"
                 class="input_date"
+                min="" max=""
               />
             </div>
             <div class="wrapper_priority flex_center
@@ -74,7 +75,7 @@
             <div class="confirm_selection">
               <button type="submit" class="btn_submit">Add</button>
 
-              <button class="btn_cancel">Cancel</button>
+              <button id="btn_cancel" class="btn_cancel">Cancel</button>
             </div>
           </form>
         </div>
@@ -120,9 +121,7 @@
                   <progress
                     id="tasks_completed"
                     class="tasks_completed progress_bar"
-                    min="0"
-                    max="100"
-                    value="34"
+                    value="80" max="100" data-count="0"
                   ></progress>
                 </div>
               </div>
@@ -136,9 +135,8 @@
                   <progress
                     id="tasks_pending"
                     class="tasks_pending progress_bar"
-                    min="0"
-                    max="100"
-                    value="64"
+                    
+                    value="32" max="100" data-count="0"
                   ></progress>
                 </div>
               </div>
@@ -192,7 +190,7 @@
       <section class="adding_tasks adding_tasks">
         <div class="driving_day">
           <p class="label_day blue_title">Today</p>
-          <p class="current_day">19th July, Wednesday</p>
+          <p  id="current_day" class="current_day">19th July, Wednesday</p>
         </div>
 
         <button id="add_task" class="add_task">
