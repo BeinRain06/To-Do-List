@@ -345,6 +345,13 @@ input:focus {
     /* text-align: left; */
   }
 
+  .wrap_progress {
+    --progress-bar: 0;
+    position: relative;
+    width: 88%;
+    height: 5px;
+  }
+
   .progress_bar {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -353,10 +360,10 @@ input:focus {
 
   .flow_tasks .tasks_completed.progress_bar,
   .flow_tasks .tasks_pending.progress_bar {
-    --progress-bar: 0;
+    /* --progress-bar: 0; */
     position: relative;
-    width: 88%;
-    height: 5px;
+    width: 100%;
+    height: 100%;
     background-color: #00000031;
     -webkit-appearance: none;
     --moz-appearance: none;
@@ -365,11 +372,13 @@ input:focus {
     border-radius: 12px;
   }
 
-  .flow_tasks .tasks_completed.progress_bar ::before,
+  /*  .flow_tasks .tasks_completed.progress_bar ::before,
   .flow_tasks .tasks_pending.progress_bar ::before {
     content: attr(data-count);
+    content: "";
     position: absolute;
     left: var(--progress-bar);
+    left: 0;
     top: 50%;
     width: 1.25em;
     height: 1.25em;
@@ -380,26 +389,63 @@ input:focus {
     display: grid;
     place-items: center;
     transition: transform 150ms ease-in-out;
+  } */
+
+  .flow_tasks .tasks_completed.progress_bar + div.square_arrow,
+  .flow_tasks .tasks_pending.progress_bar + div.square_arrow {
+    position: absolute;
+    left: var(--progress-bar);
+    left: 0;
+    top: 50%;
+    width: 0.9em;
+    height: 0.9em;
+    transform: rotate(45deg) translate(var(--progress-bar), 0) scale(1);
+    color: #fff;
+    font-size: 0.95em;
+    display: grid;
+    place-items: center;
+    transition: transform 150ms ease-in-out;
     /* background-color: #cfcbcb; */
   }
 
-  .flow_tasks .tasks_completed.progress_bar ::before {
+  .completed_count {
+    position: relative;
+    top: -2px;
+    left: -1px;
+    transform: rotate(-45deg);
+    font-size: 11px;
+  }
+
+  .flow_tasks .tasks_completed.progress_bar + div.square_arrow {
+    background-color: #2e8b57;
+  }
+
+  .flow_tasks .tasks_pending.progress_bar + div.square_arrow {
+    background-color: #d2042d;
+  }
+
+  /* .flow_tasks .tasks_completed.progress_bar ::before {
     background-color: #2e8b57;
   }
 
   .flow_tasks .tasks_pending.progress_bar ::before {
     background-color: #d2042d;
-  }
+  } */
 
-  .flow_tasks .tasks_completed.progress_bar:hover::before,
-  .flow_tasks .tasks_pending.progress_bar:hover::before {
+  .flow_tasks .tasks_completed.progress_bar + div.square_arrow:hover,
+  .flow_tasks .tasks_pending.progress_bar + div.square_arrow :hover {
     transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1.25);
   }
 
+  /* .flow_tasks .tasks_completed.progress_bar:hover::before,
+  .flow_tasks .tasks_pending.progress_bar:hover::before {
+    transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1.25);
+  } */
+
   .flow_tasks .tasks_completed.progress_bar::-webkit-progress-bar,
   .flow_tasks .tasks_pending.progress_bar::-webkit-progress-bar {
-    height: 0.8em;
-    background-color: #d31d31d3;
+    height: 0.5em;
+    background-color: #8f8e8e;
     border-radius: 100vmax;
   }
 
@@ -675,6 +721,7 @@ input:focus {
     flex-basis: 14%;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -889,6 +936,7 @@ input:focus {
   .input_label {
     padding: 0.75rem 0;
     font-size: 18px;
+    /*  color: red; */
     font-weight: bold;
   }
 
@@ -932,6 +980,10 @@ input:focus {
   .wrapper_priority {
     padding: 0.5rem 0;
     gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .box_priority {
@@ -948,6 +1000,7 @@ input:focus {
     border: 2px solid transparent;
     display: grid;
     place-items: center;
+    z-index: 10;
   }
 
   .inner_circle {
@@ -955,6 +1008,7 @@ input:focus {
     height: 12px;
     background-color: transparent;
     border-radius: 50%;
+    z-index: 1;
   }
 
   .outer_circle[data-priority="high"] {

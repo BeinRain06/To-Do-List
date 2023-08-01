@@ -24,11 +24,11 @@ class DateSettings {
   }
 
   _setDateInput(dateInput) {
-    dateInput.setAttribute("min", moment().format("YYYY-MM-D"));
+    dateInput.setAttribute("min", moment().format("YYYY-MM-DD"));
 
     dateInput.setAttribute(
       "max",
-      moment().add("6", "days").format("YYYY-MM-D")
+      moment().add("6", "days").format("YYYY-MM-DD")
     );
   }
 
@@ -44,7 +44,8 @@ class DateSettings {
       day.className = i === 0 ? "day active_day" : "day";
 
       day.setAttribute("id", i);
-      day.setAttribute("data-value", `${current.format("dddd, MMMM Do YYYY")}`);
+      /*   day.setAttribute("data-value", `${current.format("dddd, MMMM Do YYYY")}`); */
+      day.setAttribute("data-value", `${current.format("DD")}`);
 
       day.innerHTML = `<p class="day_name">${current
         .format("ddd")

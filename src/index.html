@@ -13,7 +13,10 @@
     <title>To-do-List</title>
   </head>
   <body id="view_app" theme="light">
-    <div id="modal_calendar_container" class="modal_calendar_container flex_row_center">
+    <div
+      id="modal_calendar_container"
+      class="modal_calendar_container flex_row_center"
+    >
       <div id="modal_calendar" class="modal_calendar"></div>
     </div>
     <div id="modalTasks_container" class="modalTasks_container">
@@ -41,31 +44,33 @@
                 name="date"
                 id="date_input"
                 class="input_date"
-                min="" max=""
+                min=""
+                max=""
               />
             </div>
-            <div class="wrapper_priority flex_center
-              <label for="priority" class="input_label blue_title"
-                >Priority:</label
+            <div id="wrapper_priority" class="wrapper_priority">
+              <label for="prority" class="input_label blue_title">
+                Priority:</label
               >
+
               <div class="box_priority">
                 <div
                   id="high_priority"
-                  class="outer_circle"
+                  class="outer_circle circ_prior"
                   data-priority="high"
                 >
                   <div class="inner_circle"></div>
                 </div>
                 <div
                   id="medium_priority"
-                  class="outer_circle"
+                  class="outer_circle circ_prior"
                   data-priority="medium"
                 >
                   <div class="inner_circle"></div>
                 </div>
                 <div
                   id="normal_priority"
-                  class="outer_circle active_priority"
+                  class="outer_circle circ_prior active_priority"
                   data-priority="normal"
                 >
                   <div class="inner_circle"></div>
@@ -73,7 +78,9 @@
               </div>
             </div>
             <div class="confirm_selection">
-              <button type="submit" class="btn_submit">Add</button>
+              <button type="submit" id="btn_submit" class="btn_submit">
+                Add
+              </button>
 
               <button id="btn_cancel" class="btn_cancel">Cancel</button>
             </div>
@@ -102,8 +109,8 @@
         <div class="content_section">
           <div class="tasks_screen tasks_panel">
             <div class="account_tasks flex_column_center">
-              <p id="total_tasks" class="total_tasks flex_row_center">
-                7
+              <p class="total_tasks flex_row_center">
+                <span id="total_tasks"></span>
                 <span class="icon_totalTask"
                   ><i class="fa-solid fa-puzzle-piece"></i>
                 </span>
@@ -118,11 +125,18 @@
                     <i class="fa-solid fa-book"></i>
                     <p class="label_tasks">Completed</p>
                   </ul>
-                  <progress
-                    id="tasks_completed"
-                    class="tasks_completed progress_bar"
-                    value="80" max="100" data-count="0"
-                  ></progress>
+                  <div class="wrap_progress">
+                    <progress
+                      id="tasks_completed"
+                      class="tasks_completed progress_bar"
+                      value="80"
+                      max="100"
+                      data-count="0"
+                    ></progress>
+                    <div class="square_arrow" data-count="0">
+                      <p class="completed_count">2</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="pending_tasks">
@@ -131,21 +145,25 @@
                     <i class="fa-solid fa-list"></i>
                     <p class="label_tasks">Pending</p>
                   </ul>
-
-                  <progress
-                    id="tasks_pending"
-                    class="tasks_pending progress_bar"
-                    
-                    value="32" max="100" data-count="0"
-                  ></progress>
+                  <div class="wrap_progress">
+                    <progress
+                      id="tasks_pending"
+                      class="tasks_pending progress_bar"
+                      value="32"
+                      max="100"
+                      data-count="0"
+                    ></progress>
+                    <div class="square_arrow" data-count="0">
+                      <p class="pending_count">2</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="current_branch_week tasks_panel">
             <div class="title_week">This Week</div>
-            <p id="week_range" class="week_range">
-            </p>
+            <p id="week_range" class="week_range"></p>
             <div class="flow_container flex_row_center">
               <div class="flow_chart flex_row_center">
                 <div class="high_chart chart_size">
@@ -189,24 +207,25 @@
       <section class="adding_tasks adding_tasks">
         <div class="driving_day">
           <p class="label_day blue_title">Today</p>
-          <p  id="current_day" class="current_day"></p>
+          <p id="current_day" class="current_day"></p>
         </div>
 
         <button id="add_task" class="add_task">
-          <span class="icon_plus flex_row_center"><i class="fa-solid fa-plus"></i></span>
+          <span class="icon_plus flex_row_center"
+            ><i class="fa-solid fa-plus"></i
+          ></span>
           <span class="label_add">Add Task</span>
         </button>
       </section>
 
       <section id="calendar_container" class="calendar_container">
-        <ul id="list_days_week" class="list_days_week">
-        </ul>
+        <ul id="list_days_week" class="list_days_week"></ul>
       </section>
       <section id="list_container" class="list_container">
         <div class="list_content">
           <h5 class="list_title">Pending</h5>
           <p class="no_tasks flex_row_center"><span>0</span> Pending Tasks</p>
-          <div id="holding_tasks" class="holding_tasks flex_column_center">
+          <div id="tasks_day_pending" class="holding_tasks flex_column_center">
             <div id="0" class="task_match_content" data-priority="high">
               <div id="high_match" class="task_match">
                 <div class="task_description">
@@ -236,7 +255,7 @@
         <div class="list_content">
           <h5 class="list_title">Done</h5>
           <p class="no_tasks"><span>0</span> Completed Tasks</p>
-          <div id="holding_tasks" class="holding_tasks"></div>
+          <div id="tasks_day_completed" class="holding_tasks"></div>
         </div>
       </section>
     </main>
