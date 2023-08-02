@@ -49,10 +49,6 @@ class App {
     document
       .getElementById("btn_submit")
       .addEventListener("click", this._addItem.bind(this));
-
-    document
-      .getElementById("list_days_week")
-      .addEventListener("click", this._graphList.bind(this));
   }
 
   _changeTheme(type) {
@@ -75,15 +71,22 @@ class App {
 
   _scheduleDay(e) {
     const wholeWeek = Array.from(document.querySelectorAll(".day"));
+    console.log(e.target);
+    console.log(wholeWeek);
 
-    if (e.target.classList.contains("active_day")) {
+    if (
+      e.target.classList.contains("active_day") ||
+      e.target.parentElement.classList.contains("active_day")
+    ) {
       return;
     } else {
       wholeWeek.map((item, index) => {
         item.classList.remove("active_day");
       });
     }
-    e.target.classList.add("active_day");
+    e.target.parentElement.classList.add("active_day");
+
+    this._graphList(e.target.parentElement);
   }
 
   _setDateRange() {
@@ -92,6 +95,7 @@ class App {
 
   _addItem(e) {
     e.preventDefault();
+    const modalTasks = document.getElementById("modalTasks_container");
     const title = document.getElementById("task_in").value;
     const date = document.getElementById("date_input").valueAsDate;
     const priorityGame = Array.from(document.querySelectorAll(".circ_prior"));
@@ -102,6 +106,8 @@ class App {
     priority = thisTask.getAttribute("data-priority");
 
     this._profiler._addTasks(title, date, priority);
+
+    modalTasks.style.display = "none";
   }
 
   _priorityGame(e) {
@@ -122,47 +128,43 @@ class App {
     e.target.parentElement.classList.add("active_priority");
   }
 
-  _graphList(e) {
-    console.log(e.target);
-    const dayCompletedBox = document.getElementById("tasks_day_completed");
-    const dayPendingBox = document.getElementById("tasks_day_pending");
-
-    const weekDays = Array.from(document.querySelectorAll(".day"));
-
+  _graphList(activeDay) {
     const pendingDayTask = [];
     const completedDaytask = [];
+    
+      this._profiler._pendingTasks.map((task) => pendingDayTask.push(task));
 
-    const activeDay = weekDays.find((task) =>
-      task.classList.contains("active_day")
-    );
+      this._profiler._completedTasks.map((task) => completedDaytask.push(task));
 
-    this._profiler._listTasks.map((task, index) => {
-      if (task.check === "pending") {
-        pendingDayTask.push(task);
-      } else {
-        completedDaytask.push(task);
-      }
-    });
+    const pendingList =
+      pendingDayTask !== []
+        ? pendingDayTask.filter((task) => task.dateDay === activeDay.dateDay)
+        : [];
 
-    this._profiler._listTasks.map((task, index) => {
-      if (task.classList.contains("active_day")) {
-        const myPending = pendingDayTask.filter(
-          (task) => task.dateDay === activeDay.dateDay
-        );
+    console.log(pendingList);
 
-        const myCompleted = completedDaytask.filter(
-          (task) => task.dateDay === activeDay.dateDay
-        );
+    const completedList =
+      completedDaytask !== []
+        ? completedDaytask.filter((task) => task.dateDay === activeDay.dateDay)
+        : [];
 
-        if (myPending !== undefined) {
-          myPending.map((element, index) => {
-            const taskCard = document.createElement("div");
+    this._pendingDayUI(pendingList);
 
-            taskCard.setAttribute("id", element.id);
-            taskCard.setAttribute("data-priority", element.priority);
-            taskCard.className = "task_match_content";
+    this._completedDayUI(completedList);
+  }
 
-            taskCard.innerHTML = `<div id="high_match" class="task_match">
+  _pendingDayUI(pendingList) {
+    const dayPendingBox = document.getElementById("tasks_day_pending");
+
+    if (pendingList.length !== 0) {
+      pendingList.map((element, index) => {
+        const taskCard = document.createElement("div");
+
+        taskCard.setAttribute("id", element.id);
+        taskCard.setAttribute("data-priority", element.priority);
+        taskCard.className = "task_match_content";
+
+        taskCard.innerHTML = `<div id="high_match" class="task_match">
                 <div class="task_description">
                   <div id="circle_match" class="circle_match"></div>
                   <div class="name_task">${element.title}</div>
@@ -172,21 +174,25 @@ class App {
                 </div>
               </div>`;
 
-            dayPendingBox.appendChild(taskCard);
-          });
-        } else if (myPending === undefined) {
-          dayPendingBox.innerHTML = `<p class="no_tasks flex_row_center"><span>0</span> Pending Tasks</p>`;
-        }
+        dayPendingBox.appendChild(taskCard);
+      });
+    } else {
+      dayPendingBox.innerHTML = `<p class="no_tasks flex_row_center"><span>0</span> Pending Tasks</p>`;
+    }
+  }
 
-        if (myCompleted !== undefined) {
-          myCompleted.map((element, index) => {
-            const taskCard = document.createElement("div");
+  _completedDayUI(completedList) {
+    const dayCompletedBox = document.getElementById("tasks_day_completed");
 
-            taskCard.setAttribute("id", element.id);
-            taskCard.setAttribute("data-priority", element.priority);
-            taskCard.className = "task_match_content";
+    if (completedList.length !== 0) {
+      completedList.map((element, index) => {
+        const taskCard = document.createElement("div");
 
-            taskCard.innerHTML = `<div id="high_match" class="task_match">
+        taskCard.setAttribute("id", element.id);
+        taskCard.setAttribute("data-priority", element.priority);
+        taskCard.className = "task_match_content";
+
+        taskCard.innerHTML = `<div id="high_match" class="task_match">
                 <div class="task_description">
                   <div id="circle_match" class="circle_match"></div>
                   <div class="name_task">${element.title}</div>
@@ -196,13 +202,11 @@ class App {
                 </div>
               </div>`;
 
-            dayCompletedBox.appendChild(taskCard);
-          });
-        } else if (myCompleted === undefined) {
-          dayPendingBox.innerHTML = `<p class="no_tasks flex_row_center"><span>0</span> Completed Tasks</p>`;
-        }
-      }
-    });
+        dayCompletedBox.appendChild(taskCard);
+      });
+    } else {
+      dayCompletedBox.innerHTML = `<p class="no_tasks flex_row_center"><span>0</span> Completed Tasks</p>`;
+    }
   }
 }
 

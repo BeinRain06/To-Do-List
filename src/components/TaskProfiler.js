@@ -3,8 +3,9 @@ import moment from "moment";
 class TaskProfiler {
   constructor() {
     this._listTasks = Storage.getTasks();
-    this._completedTasks = 0;
-    this._pendingTasks = 0;
+    this._completedTasks = Storage.saveCompleted();
+    this._pendingTasks = Storage.savePending();
+
     this._render();
   }
 
@@ -17,8 +18,14 @@ class TaskProfiler {
       check: "pending",
       priority: priority,
     };
+
     this._listTasks.push(task);
+
     Storage.saveTask(task);
+
+    this._pendingTasks = Storage.savePending();
+
+    /* this._completedTasks = Storage.saveCompleted(); */
 
     console.log(task.id);
 
@@ -28,9 +35,7 @@ class TaskProfiler {
   _updatePendingTasks() {
     const progressPending = document.getElementById("tasks_pending");
 
-    const pendingAccount = this._listTasks.find(
-      (item) => item.check === "pending"
-    ).length;
+    const pendingAccount = this._pendingTasks.length;
 
     const totalTasks = this._listTasks.length;
 
@@ -44,9 +49,7 @@ class TaskProfiler {
   _updateCompletedTasks() {
     const progressCompleted = document.getElementById("tasks_completed");
 
-    const completedAccount = this._listTasks.find(
-      (item) => item.check === "pending"
-    ).length;
+    const completedAccount = this._completedTasks.length;
 
     const totalTasks = this._listTasks.length;
 
@@ -54,7 +57,7 @@ class TaskProfiler {
 
     progressCompleted.setAttribute("value", `${width}`);
 
-    progressCompleted.setAttribute("data-count", `${completdeAccount}`);
+    progressCompleted.setAttribute("data-count", `${completedAccount}`);
   }
 
   _displayTotalTasks() {
@@ -68,9 +71,7 @@ class TaskProfiler {
       ".square_arrow .pending_count"
     );
 
-    const pendingAccount = this._listTasks.find(
-      (item) => item.check === "pending"
-    ).length;
+    const pendingAccount = this._pendingTasks.length;
 
     pendingContent.innerHTML = `${pendingAccount}`;
   }
@@ -80,17 +81,17 @@ class TaskProfiler {
       ".square_arrow .completed_count"
     );
 
-    const completdeAccount = this._listTasks.find(
-      (item) => item.check === "completed"
-    ).length;
+    const completedAccount = this._completedTasks.length;
 
-    completedContent.innerHTML = `${completdeAccount}`;
+    completedContent.innerHTML = `${completedAccount}`;
   }
 
   _render() {
     this._displayTotalTasks();
     this._displayPendingTasks();
     this._displayCompletedTasks();
+    this._updatePendingTasks();
+    this._updateCompletedTasks();
   }
 }
 export default TaskProfiler;

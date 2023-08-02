@@ -408,7 +408,8 @@ input:focus {
     /* background-color: #cfcbcb; */
   }
 
-  .completed_count {
+  .completed_count,
+  .pending_count {
     position: relative;
     top: -2px;
     left: -1px;
@@ -678,7 +679,7 @@ input:focus {
     align-items: center;
     align-self: flex-end;
     gap: 0.25rem;
-    z-index: 5;
+    z-index: 3;
   }
 
   .icon_plus {
@@ -910,6 +911,7 @@ input:focus {
     transform: translate(-50%, -50%);
     background-color: var(--bg-list);
     border-radius: 24px;
+    z-index: 5;
   }
 
   .gen_title_modal {
