@@ -5,6 +5,7 @@ import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands"; */
 import DateSettings from "./components/DateSettings";
 import TaskProfiler from "./components/TaskProfiler";
+import Storage from "./Storage";
 import moment from "moment";
 import "./css/bootstrap.css";
 import "./css/style.css";
@@ -43,6 +44,14 @@ class App {
       .addEventListener("click", this._showModalTask.bind(this, "add"));
 
     document
+      .getElementById("tasks_day_pending")
+      .addEventListener("click", this._removeItem.bind(this));
+
+    document
+      .getElementById("tasks_day_completed")
+      .addEventListener("click", this._removeItem.bind(this));
+
+    document
       .getElementById("btn_cancel")
       .addEventListener("click", this._showModalTask.bind(this, "remove"));
 
@@ -72,7 +81,6 @@ class App {
   _scheduleDay(e) {
     const wholeWeek = Array.from(document.querySelectorAll(".day"));
     console.log(e.target);
-    console.log(wholeWeek);
 
     if (
       e.target.classList.contains("active_day") ||
@@ -84,9 +92,14 @@ class App {
         item.classList.remove("active_day");
       });
     }
-    e.target.parentElement.classList.add("active_day");
 
-    this._graphList(e.target.parentElement);
+    e.target.classList.add("active_day");
+
+    const pendingDayTask = this._pendingDayTask();
+
+    const completedDayTask = this._completedDayTask();
+
+    this._graphList(pendingDayTask, completedDayTask);
   }
 
   _setDateRange() {
@@ -110,6 +123,47 @@ class App {
     modalTasks.style.display = "none";
   }
 
+  _removeItem(e) {
+    console.log("remove", e.target.closest(".task_match_content"));
+
+    const divElement = e.target.closest(".task_match_content");
+
+    const itemTask = this._profiler._listTasks.find(
+      (task) => task.id === divElement.getAttribute("id")
+    );
+
+    const id = itemTask.id;
+
+    if (id !== undefined) {
+      console.log(id);
+      this._profiler._removeTasks(id);
+    } else {
+      console.log("Id Element target Not Found");
+    }
+
+    const pendingDayTask = this._pendingDayTask();
+
+    const completedDayTask = this._completedDayTask();
+
+    this._graphList(pendingDayTask, completedDayTask);
+
+    const wholeUITasks = Array.from(
+      document.querySelectorAll(".task_match_content")
+    );
+
+    wholeUITasks.map((task) => {
+      if (task.getAttribute("id") === id) {
+        task.remove();
+      } else {
+        console.log(task);
+      }
+    });
+
+    /*  this._pendingDayUI(pendingDayTask);
+
+    this._completedDayUI(completedDaytask); */
+  }
+
   _priorityGame(e) {
     const priorityList = Array.from(document.querySelectorAll(".circ_prior"));
 
@@ -128,36 +182,32 @@ class App {
     e.target.parentElement.classList.add("active_priority");
   }
 
-  _graphList(activeDay) {
-    const pendingDayTask = [];
-    const completedDaytask = [];
-    
-      this._profiler._pendingTasks.map((task) => pendingDayTask.push(task));
+  _graphList(pendingDayTask, completedDaytask) {
+    console.log("total Tasks :", Storage.getTasks());
 
-      this._profiler._completedTasks.map((task) => completedDaytask.push(task));
+    /* const activeDay = this._activeDay(); */
 
-    const pendingList =
-      pendingDayTask !== []
-        ? pendingDayTask.filter((task) => task.dateDay === activeDay.dateDay)
-        : [];
+    /*   const pendingDayTask = this._profiler._pendingTasks.filter(
+      (task) => task.dateDay === activeDay.getAttribute("data-value")
+    );
 
-    console.log(pendingList);
+    const completedDaytask = this._profiler._completedTasks.filter(
+      (task) => task.dateDay === activeDay.getAttribute("data-value")
+    ); */
 
-    const completedList =
-      completedDaytask !== []
-        ? completedDaytask.filter((task) => task.dateDay === activeDay.dateDay)
-        : [];
+    console.log("pendingTasks :", pendingDayTask);
+    console.log("completedTasks", completedDaytask);
 
-    this._pendingDayUI(pendingList);
+    this._pendingDayUI(pendingDayTask);
 
-    this._completedDayUI(completedList);
+    this._completedDayUI(completedDaytask);
   }
 
-  _pendingDayUI(pendingList) {
+  _pendingDayUI(pendingDayTask) {
     const dayPendingBox = document.getElementById("tasks_day_pending");
 
-    if (pendingList.length !== 0) {
-      pendingList.map((element, index) => {
+    if (pendingDayTask.length !== 0) {
+      pendingDayTask.map((element, index) => {
         const taskCard = document.createElement("div");
 
         taskCard.setAttribute("id", element.id);
@@ -174,6 +224,8 @@ class App {
                 </div>
               </div>`;
 
+        dayPendingBox.innerHTML = "";
+
         dayPendingBox.appendChild(taskCard);
       });
     } else {
@@ -181,11 +233,11 @@ class App {
     }
   }
 
-  _completedDayUI(completedList) {
+  _completedDayUI(completedDaytask) {
     const dayCompletedBox = document.getElementById("tasks_day_completed");
 
-    if (completedList.length !== 0) {
-      completedList.map((element, index) => {
+    if (completedDaytask.length !== 0) {
+      completedDaytask.map((element, index) => {
         const taskCard = document.createElement("div");
 
         taskCard.setAttribute("id", element.id);
@@ -207,6 +259,36 @@ class App {
     } else {
       dayCompletedBox.innerHTML = `<p class="no_tasks flex_row_center"><span>0</span> Completed Tasks</p>`;
     }
+  }
+
+  _activeDay() {
+    const wholeWeek = Array.from(document.querySelectorAll(".day"));
+
+    const activeDay = wholeWeek.find((day) =>
+      day.classList.contains("active_day")
+    );
+
+    return activeDay;
+  }
+
+  _pendingDayTask() {
+    const activeDay = this._activeDay();
+
+    const pendingDayTask = this._profiler._pendingTasks.filter(
+      (task) => task.dateDay === activeDay.getAttribute("data-value")
+    );
+
+    return pendingDayTask;
+  }
+
+  _completedDayTask() {
+    const activeDay = this._activeDay();
+
+    const completedDaytask = this._profiler._completedTasks.filter(
+      (task) => task.dateDay === activeDay.getAttribute("data-value")
+    );
+
+    return completedDaytask;
   }
 }
 

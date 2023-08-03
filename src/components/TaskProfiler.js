@@ -14,7 +14,7 @@ class TaskProfiler {
       id: Math.random().toString(16).slice(2),
       title: title,
       date: date,
-      dateDay: moment(date, "YYYY-MM-DD").format("DD"),
+      dateDay: moment(date, "YYYY-MM-DD").add(1, "days").format("DD"),
       check: "pending",
       priority: priority,
     };
@@ -32,6 +32,17 @@ class TaskProfiler {
     this._render();
   }
 
+  _removeTasks(id) {
+    const updateTotalTasks = this._listTasks.filter((task) => task.id !== id);
+    this._listTasks = updateTotalTasks;
+    Storage.removeTaskIn(id);
+
+    this._pendingTasks = Storage.savePending();
+    this._completedTasks = Storage.saveCompleted();
+
+    this._render();
+  }
+
   _updatePendingTasks() {
     const progressPending = document.getElementById("tasks_pending");
 
@@ -39,10 +50,17 @@ class TaskProfiler {
 
     const totalTasks = this._listTasks.length;
 
-    let width = Math.floor((pendingAccount / totalTasks) * 100);
+    let width;
+
+    if (pendingAccount !== 0) {
+      width = Math.floor((pendingAccount / totalTasks) * 100);
+    } else {
+      width = 0;
+    }
 
     progressPending.setAttribute("value", `${width}`);
 
+    console.log("progressPending", progressPending);
     progressPending.setAttribute("data-count", `${pendingAccount}`);
   }
 
@@ -53,7 +71,13 @@ class TaskProfiler {
 
     const totalTasks = this._listTasks.length;
 
-    let width = Math.floor((completedAccount / totalTasks) * 100);
+    let width;
+
+    if (completedAccount !== 0) {
+      width = Math.floor((completedAccount / totalTasks) * 100);
+    } else {
+      width = 0;
+    }
 
     progressCompleted.setAttribute("value", `${width}`);
 

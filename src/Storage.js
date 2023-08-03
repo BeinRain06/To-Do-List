@@ -1,3 +1,5 @@
+import moment from "moment";
+
 class Storage {
   static getTasks() {
     let tasks;
@@ -10,9 +12,25 @@ class Storage {
   }
 
   static saveTask(task) {
+    let updateWeekTasks;
     const tasks = Storage.getTasks();
     tasks.push(task);
-    localStorage.setItem("tasks-list", JSON.stringify(tasks));
+
+    updateWeekTasks = tasks.filter(
+      (task) => parseInt(task.dateDay) >= parseInt(moment().format("DD"))
+    );
+
+    localStorage.setItem("tasks-list", JSON.stringify(updateWeekTasks));
+
+    /* localStorage.clear(); */
+  }
+
+  static removeTaskIn(id) {
+    const tasks = Storage.getTasks();
+
+    const newTasks = tasks.filter((task) => task.id !== id);
+
+    localStorage.setItem("tasks-list", JSON.stringify(newTasks));
   }
 
   static savePending() {

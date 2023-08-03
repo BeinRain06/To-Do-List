@@ -727,6 +727,11 @@ input:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 3;
+  }
+
+  .day * {
+    z-index: -1;
   }
 
   .day.active_day {
