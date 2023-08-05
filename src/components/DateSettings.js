@@ -45,7 +45,7 @@ class DateSettings {
 
       day.setAttribute("id", i);
       /*   day.setAttribute("data-value", `${current.format("dddd, MMMM Do YYYY")}`); */
-      day.setAttribute("data-value", `${current.format("DD")}`);
+      day.setAttribute("data-value", `${current.format("MMM D")}`);
 
       day.innerHTML = `<p class="day_name">${current
         .format("ddd")

@@ -14,7 +14,8 @@ class TaskProfiler {
       id: Math.random().toString(16).slice(2),
       title: title,
       date: date,
-      dateDay: moment(date, "YYYY-MM-DD").add(1, "days").format("DD"),
+      dateDay: moment(date, "YYYY-MM-DD").add(1, "days").format("MMM D"),
+      classElt: "task_match_content",
       check: "pending",
       priority: priority,
     };

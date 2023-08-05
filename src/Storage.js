@@ -17,7 +17,9 @@ class Storage {
     tasks.push(task);
 
     updateWeekTasks = tasks.filter(
-      (task) => parseInt(task.dateDay) >= parseInt(moment().format("DD"))
+      (task) =>
+        parseInt(moment(task.date).format("DD")) >=
+        parseInt(moment().format("DD"))
     );
 
     localStorage.setItem("tasks-list", JSON.stringify(updateWeekTasks));
@@ -47,6 +49,17 @@ class Storage {
     const completed = tasks.filter((item) => item.check === "completed");
 
     return completed;
+  }
+
+  static tasksAchieveIn(tasks) {
+    localStorage.setItem("tasks-list", JSON.stringify(tasks));
+
+    Storage.savePending();
+    Storage.saveCompleted();
+  }
+
+  static clearAll() {
+    localStorage.clear();
   }
 }
 
