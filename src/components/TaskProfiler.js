@@ -28,7 +28,9 @@ class TaskProfiler {
 
     this._pendingTasks = Storage.savePending();
 
-    /* this._completedTasks = Storage.saveCompleted(); */
+    console.log("pendingTask", this._pendingTasks);
+
+    this._completedTasks = Storage.saveCompleted();
 
     console.log(task.id);
 
@@ -58,24 +60,23 @@ class TaskProfiler {
 
     if (pendingAccount !== 0) {
       width = Math.floor((pendingAccount / totalTasks) * 100);
-      leftSquare = width - 20;
-      console.log("width pending:", width);
+      leftSquare = width - 10;
     } else {
       width = 0;
       leftSquare = 0;
-      console.log("width pending:", width);
     }
 
     progressPending.setAttribute("value", `${width}`);
 
     progressPending.setAttribute("data-count", `${pendingAccount}`);
 
-    this._pendingSquare.style.setProperty("--progress-bar", `${leftSquare}%`);
+    document
+      .querySelector(":root")
+      .style.setProperty("--progress-bar-pending", leftSquare + "%");
   }
 
   _updateCompletedTasks() {
     const progressCompleted = document.getElementById("tasks_completed");
-    const squareCompleted = document.getElementById("square_complete");
 
     const completedAccount = this._completedTasks.length;
 
@@ -86,21 +87,18 @@ class TaskProfiler {
     if (completedAccount !== 0) {
       width = Math.floor((completedAccount / totalTasks) * 100);
       leftSquare = width - 20;
-      console.log("width complete:", width);
     } else {
       width = 0;
       leftSquare = 0;
-      console.log("width complete:", width);
     }
 
     progressCompleted.setAttribute("value", `${width}`);
 
     progressCompleted.setAttribute("data-count", `${completedAccount}`);
-    console.log("left", leftSquare);
-    /*  document
-      .getElementById("square_complete")
-      .style.setProperty("--progress-bar", `${leftSquare}%`); */
-    this._completedSquare.style.setProperty("--progress-bar", leftSquare + "%");
+
+    document
+      .querySelector(":root")
+      .style.setProperty("--progress-bar-completed", leftSquare + "%");
   }
 
   _displayTotalTasks() {

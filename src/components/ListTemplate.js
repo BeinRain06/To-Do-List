@@ -17,7 +17,7 @@ class ListTemplate {
   }
 
   _renderList(profilerList, chart, dateValue) {
-    /*  this._clear(); */
+    this._clear();
 
     profilerList.map((item, index) => {
       const itemDate = moment(item.date).format("MMM D");
@@ -30,22 +30,15 @@ class ListTemplate {
           taskIn.checked ? "done" : ""
         } `;
 
-        taskIn.innerHTML = `<div class="task_description">
-                  <input type="radio" id=${item.id} class="circle_match "${
-          item.checked ? "done" : ""
-        }"" ${item.checked} >
-                  <label for=${item.id}>${item.title}</label>
-                </div>
-                <button id="remove_task" class="remove_task">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>`;
+        //adding checkbox
+        const check = document.createElement("input");
+        check.className = "circle_match";
+        check.type = "radio";
+        check.id = item.id;
+        check.checked = item.checked;
+        taskIn.appendChild(check);
 
-        /* eventListener Input radio */
-        /*   const taskInput = document.querySelector(`#${item.id}[type = "radio"]`); */
-
-        const taskInput = document.querySelector(`.circle_match`);
-
-        taskInput.addEventListener("change", () => {
+        check.addEventListener("change", () => {
           item.checked = !item.checked;
 
           let totalTasks = this._constructNewTotalTasks(item);
@@ -63,20 +56,31 @@ class ListTemplate {
           );
         });
 
-        /*eventListener icon remove*/
-        const btnRemove = document.getElementById("remove_task");
-        btnRemove.addEventListener("click", (e) => {
-          console.log(e.target);
+        // adding label
+        const label = document.createElement("label");
+        label.className = "title_item";
+        label.htmlFor = item.id;
+        label.innerText = item.title;
+
+        taskIn.appendChild(label);
+
+        // adding delete button
+        const button = document.createElement("button");
+
+        button.className = "remove_task";
+        button.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+        button.style.zIndex = "3";
+        taskIn.appendChild(button);
+
+        button.addEventListener("click", () => {
           const typeAction = "remove";
-          const taskIn = e.target.closest(".task_match_content");
-          const idTask = taskIn.getAttribute("id");
+          console.log("total", item.id);
+          this._profiler._removeTasks(item.id);
 
-          profilerList._removeTasks(idTask);
           chart._updateTotalItems(item.priority, typeAction);
-
           this._renderList(
-            profilerList,
-            chart,
+            this._profiler._listTasks,
+            this._chart,
             moment(item.date).format("MMM D")
           );
         });
@@ -117,7 +121,7 @@ class ListTemplate {
       newCompletedTasks = this._profiler._completedTasks.push(item);
     }
 
-    totalTasks = newPendingTasks.concat(newCompletedTasks);
+    let totalTasks = newPendingTasks.concat(newCompletedTasks);
 
     return totalTasks;
   }

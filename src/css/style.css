@@ -1,3 +1,7 @@
+:root {
+  --progress-bar-pending: 0;
+  --progress-bar-completed: 0;
+}
 *,
 *::before,
 *::after {
@@ -347,19 +351,9 @@ input:focus {
   }
 
   .wrap_progress {
-    --progress-bar-1: 0;
-    --progress-bar-2: 0;
     position: relative;
-    width: 88%;
+    width: 99%;
     height: 5px;
-  }
-
-  .wrap_1 {
-    --progress-bar-1: 0;
-  }
-
-  .wrap_2 {
-    --progress-bar-2: 0;
   }
 
   .progress_bar {
@@ -382,7 +376,7 @@ input:focus {
     border-radius: 12px;
   }
 
-  .flow_tasks .tasks_completed.progress_bar + div.square_arrow,
+  /* .flow_tasks .tasks_completed.progress_bar + div.square_arrow,
   .flow_tasks .tasks_pending.progress_bar + div.square_arrow {
     --progress-bar: 0;
     position: absolute;
@@ -390,13 +384,36 @@ input:focus {
     top: 50%;
     width: 0.9em;
     height: 0.9em;
-    transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1);
+    transform: rotate(45deg) translate(var(--progress-bar), 0%) scale(1);
+    color: #fff;
+    font-size: 0.95em;
+    display: grid;
+    place-items: center;
+    transition: transform 150ms ease-in-out;
+  } */
+
+  .square_arrow_2,
+  .square_arrow_1 {
+    position: absolute;
+    /*   left: var(--progress-bar); */
+    left: var(--progress-bar-pending);
+    top: 50%;
+    width: 0.9em;
+    height: 0.9em;
+    transform: rotate(45deg) translate(var(--progress-bar-pending), 0%) scale(1);
     color: #fff;
     font-size: 0.95em;
     display: grid;
     place-items: center;
     transition: transform 150ms ease-in-out;
     /* background-color: #cfcbcb; */
+  }
+
+  .square_arrow_2 {
+    position: absolute;
+    left: var(--progress-bar-completed);
+    transform: rotate(45deg) translate(var(--progress-bar-completed), 0%)
+      scale(1);
   }
 
   .completed_count,

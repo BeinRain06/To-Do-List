@@ -38,7 +38,7 @@ class Storage {
   static savePending() {
     const tasks = Storage.getTasks();
 
-    const pending = tasks.filter((item) => item.check === "pending");
+    const pending = tasks.filter((item) => item.checked === false);
 
     return pending;
   }
@@ -46,7 +46,7 @@ class Storage {
   static saveCompleted() {
     const tasks = Storage.getTasks();
 
-    const completed = tasks.filter((item) => item.check === "completed");
+    const completed = tasks.filter((item) => item.checked === true);
 
     return completed;
   }

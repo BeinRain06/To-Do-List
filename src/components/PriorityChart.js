@@ -10,6 +10,7 @@ class PriorityChart {
   }
 
   _updateTotalItems(lastPriority, typeAction) {
+    console.log("priority choosed", lastPriority);
     if (typeAction === "add") {
       switch (lastPriority) {
         case "high":
@@ -69,14 +70,14 @@ class PriorityChart {
   }
 
   _updateMediumChart() {
-    const mediumPriority = document.getElementById("high_diagram");
+    const mediumPriority = document.getElementById("medium_diagram");
     let height = this._totalMediumItems * 6;
     if (height >= 60) height = 60;
     mediumPriority.style.height = `${height}px`;
   }
 
   _updateNormalChart() {
-    const normalPriority = document.getElementById("high_diagram");
+    const normalPriority = document.getElementById("normal_diagram");
     let height = this._totalNormalItems * 6;
     if (height >= 60) height = 60;
     normalPriority.style.height = `${height}px`;

@@ -112,6 +112,7 @@ class App {
     const thisTask = priorityGame.find((item) =>
       item.classList.contains("active_priority")
     );
+
     const dateValue = moment(date).format("MMM D");
     const profilerList = this._profiler._listTasks;
     const chart = this._chart;
