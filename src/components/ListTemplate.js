@@ -1,13 +1,14 @@
 import TaskProfiler from "./TaskProfiler";
+import PriorityChart from "./PriorityChart";
+import Storage from "../Storage";
+import moment from "moment";
 
 class ListTemplate {
   constructor() {
     this._profiler = new TaskProfiler();
+    this._chart = new PriorityChart();
     this._pendingList = document.getElementById("tasks_day_pending");
     this._completedList = document.getElementById("tasks_day_completed");
-    this._pendingDayTasks = [];
-    this._completedDayTasks = [];
-    this._render();
   }
 
   _clear() {
@@ -15,96 +16,110 @@ class ListTemplate {
     this._completedList.innerHTML = "";
   }
 
-  _pendingDayUI(pendingDayTask) {
-    console.log("pending Day Task", pendingDayTask);
-    const pendinglist = document.getElementById("tasks_day_pending");
-
-    if (pendingDayTask.length !== 0) {
-      /* if (this._pendingList.querySelector(".no_tasks") !== null) {
-        this._pendingList.querySelector(".no_tasks").remove();
-      } */
-
-      pendingDayTask.map((element, index) => {
-        let taskCard = document.createElement("div");
-
-        let title = element.title + Math.floor(Math.random() * 4);
-
-        taskCard.setAttribute("id", element.id);
-        taskCard.setAttribute("data-priority", element.priority);
-        taskCard.className = element.classElt;
-
-        taskCard.innerHTML = `<div id="high_match" class="task_match">
-                <div class="task_description">
-                  <input type="radio" id=${title} class="circle_match">
-                  <label for=${title}>${element.title}</label>
-                </div>
-                <button id="remove_task" class="remove_task">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>`;
-
-        console.log("tascard", taskCard);
-
-        this._pendingList.appendChild(taskCard);
-        /* pendinglist.append(taskCard); */
-      });
-      console.log("pendingList", pendinglist);
-    } else {
-      this._pendingList.innerHTML = `            <p class="no_tasks flex_row_center">
-              <span>0</span> Pending Tasks
-            </p>`;
-    }
-  }
-
-  _completedDayUI(completedDaytask) {
-    if (completedDaytask.length !== 0) {
-      /* if (this._completedList.querySelector(".no_tasks") !== null) {
-        this._completedList.querySelector(".no_tasks").remove();
-      } */
-
-      completedDaytask.map((element, index) => {
-        let taskCard = document.createElement("div");
-
-        let title = element.title + Math.floor(Math.random() * 4);
-
-        taskCard.setAttribute("id", element.id);
-        taskCard.setAttribute("data-priority", element.priority);
-        taskCard.className = element.classElt;
-
-        taskCard.innerHTML += `<div id="high_match" class="task_match">
-                <div class="task_description">
-                  <input type="radio" id=${title} class="circle_match" checked>
-                  <label for=${title}>${element.title}</label>
-                </div>
-                <button id="remove_task" class="remove_task">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>`;
-
-        this._completedList.appendChild(taskCard);
-      });
-    } else {
-      this._completedList.innerHTML = `<p class="no_tasks flex_row_center">
-              <span>0</span> Completed Tasks
-            </p>`;
-    }
-  }
-
-  _renderPendingListAfterRemove(pendingDayTask) {
-    /* this._clear(); */
-    this._pendingDayUI(pendingDayTask);
-    this._pendingDayTasks = pendingDayTask;
-  }
-
-  _renderCompletedListAfterRemove(completedDayTask) {
+  _renderList(profilerList, chart, dateValue) {
     /*  this._clear(); */
-    this._completedDayUI(completedDayTask);
-    this._completedDayTasks = completedDayTask;
+
+    profilerList.map((item, index) => {
+      const itemDate = moment(item.date).format("MMM D");
+
+      if (itemDate === dateValue) {
+        const taskIn = document.createElement("li");
+        taskIn.id = item.id;
+        taskIn.setAttribute("data-priority", item.priority);
+        taskIn.className = `task_match_content ${
+          taskIn.checked ? "done" : ""
+        } `;
+
+        taskIn.innerHTML = `<div class="task_description">
+                  <input type="radio" id=${item.id} class="circle_match "${
+          item.checked ? "done" : ""
+        }"" ${item.checked} >
+                  <label for=${item.id}>${item.title}</label>
+                </div>
+                <button id="remove_task" class="remove_task">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>`;
+
+        /* eventListener Input radio */
+        /*   const taskInput = document.querySelector(`#${item.id}[type = "radio"]`); */
+
+        const taskInput = document.querySelector(`.circle_match`);
+
+        taskInput.addEventListener("change", () => {
+          item.checked = !item.checked;
+
+          let totalTasks = this._constructNewTotalTasks(item);
+
+          Storage.tasksAchieveIn(totalTasks);
+
+          profilerList._listTasks = Storage.getTasks();
+
+          profilerList._render();
+          chart._renderChart();
+          this._renderList(
+            profilerList,
+            chart,
+            moment(item.date).format("MMM D")
+          );
+        });
+
+        /*eventListener icon remove*/
+        const btnRemove = document.getElementById("remove_task");
+        btnRemove.addEventListener("click", (e) => {
+          console.log(e.target);
+          const typeAction = "remove";
+          const taskIn = e.target.closest(".task_match_content");
+          const idTask = taskIn.getAttribute("id");
+
+          profilerList._removeTasks(idTask);
+          chart._updateTotalItems(item.priority, typeAction);
+
+          this._renderList(
+            profilerList,
+            chart,
+            moment(item.date).format("MMM D")
+          );
+        });
+
+        if (!item.checked) {
+          this._pendingList.appendChild(taskIn);
+        } else {
+          this._completedList.appendChild(taskIn);
+        }
+      }
+
+      this._noTasks();
+    });
   }
 
-  _render() {
-    this._renderPendingListAfterRemove(this._pendingDayTasks);
-    this._renderCompletedListAfterRemove(this._completedDayTasks);
+  _noTasks() {
+    if (this._pendingList.innerHTML === "")
+      this._pendingList.innerHTML = `<li class="empty_list">0 Pending Tasks</li>`;
+
+    if (this._completedList.innerHTML === "")
+      this._completedList.innerHTML = `<li class="empty_list">0 Completed Tasks</li>`;
+  }
+
+  _constructNewTotalTasks(item) {
+    let newPendingTasks;
+    let newCompletedTasks;
+
+    if (!item.checked) {
+      newPendingTasks = this._profiler._pendingTasks.push(item);
+
+      newCompletedTasks = this._profiler._completedTasks.filter(
+        (task) => task.id !== item.id
+      );
+    } else {
+      newPendingTasks = this._profiler._pendingTasks.filter(
+        (task) => task.id !== item.id
+      );
+      newCompletedTasks = this._profiler._completedTasks.push(item);
+    }
+
+    totalTasks = newPendingTasks.concat(newCompletedTasks);
+
+    return totalTasks;
   }
 }
 

@@ -101,7 +101,7 @@ input:focus {
     position: relative;
     left: 1px;
     color: brown;
-    z-index: -1;
+    z-index: -3;
   }
 
   .fa-check {
@@ -347,10 +347,19 @@ input:focus {
   }
 
   .wrap_progress {
-    --progress-bar: 0;
+    --progress-bar-1: 0;
+    --progress-bar-2: 0;
     position: relative;
     width: 88%;
     height: 5px;
+  }
+
+  .wrap_1 {
+    --progress-bar-1: 0;
+  }
+
+  .wrap_2 {
+    --progress-bar-2: 0;
   }
 
   .progress_bar {
@@ -361,7 +370,7 @@ input:focus {
 
   .flow_tasks .tasks_completed.progress_bar,
   .flow_tasks .tasks_pending.progress_bar {
-    /* --progress-bar: 0; */
+    /*    --progress-bar: 0; */
     position: relative;
     width: 100%;
     height: 100%;
@@ -373,34 +382,15 @@ input:focus {
     border-radius: 12px;
   }
 
-  /*  .flow_tasks .tasks_completed.progress_bar ::before,
-  .flow_tasks .tasks_pending.progress_bar ::before {
-    content: attr(data-count);
-    content: "";
-    position: absolute;
-    left: var(--progress-bar);
-    left: 0;
-    top: 50%;
-    width: 1.25em;
-    height: 1.25em;
-    border-radius: 50%;
-    transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1);
-    color: #fff;
-    font-size: 0.95em;
-    display: grid;
-    place-items: center;
-    transition: transform 150ms ease-in-out;
-  } */
-
   .flow_tasks .tasks_completed.progress_bar + div.square_arrow,
   .flow_tasks .tasks_pending.progress_bar + div.square_arrow {
+    --progress-bar: 0;
     position: absolute;
     left: var(--progress-bar);
-    left: 0;
     top: 50%;
     width: 0.9em;
     height: 0.9em;
-    transform: rotate(45deg) translate(var(--progress-bar), 0) scale(1);
+    transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1);
     color: #fff;
     font-size: 0.95em;
     display: grid;
@@ -426,23 +416,10 @@ input:focus {
     background-color: #d2042d;
   }
 
-  /* .flow_tasks .tasks_completed.progress_bar ::before {
-    background-color: #2e8b57;
-  }
-
-  .flow_tasks .tasks_pending.progress_bar ::before {
-    background-color: #d2042d;
-  } */
-
   .flow_tasks .tasks_completed.progress_bar + div.square_arrow:hover,
   .flow_tasks .tasks_pending.progress_bar + div.square_arrow :hover {
     transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1.25);
   }
-
-  /* .flow_tasks .tasks_completed.progress_bar:hover::before,
-  .flow_tasks .tasks_pending.progress_bar:hover::before {
-    transform: rotate(45deg) translate(var(--progress-bar), -50%) scale(1.25);
-  } */
 
   .flow_tasks .tasks_completed.progress_bar::-webkit-progress-bar,
   .flow_tasks .tasks_pending.progress_bar::-webkit-progress-bar {
@@ -808,8 +785,9 @@ input:focus {
     background-color: var(--bg-white);
     border-radius: 5px;
     display: flex;
-    justify-content: flex-start;
-    gap: 2rem;
+    /* justify-content: flex-start;
+    gap: 2rem; */
+    justify-content: space-between;
     box-shadow: 0px 0px 3px #22222210;
     /* z-index: 3; */
   }
@@ -827,7 +805,7 @@ input:focus {
   }
 
   .task_match_content.done ::before {
-    background-color: #f4f76a;
+    background-color: #30c048;
   }
 
   .task_match_content[data-priority="high"] ::before {

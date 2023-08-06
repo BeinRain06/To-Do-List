@@ -5,6 +5,8 @@ class TaskProfiler {
     this._listTasks = Storage.getTasks();
     this._completedTasks = Storage.saveCompleted();
     this._pendingTasks = Storage.savePending();
+    this._pendingSquare = document.getElementById("square_pend");
+    this._completedSquare = document.getElementById("square_complete");
 
     this._render();
   }
@@ -16,7 +18,7 @@ class TaskProfiler {
       date: date,
       dateDay: moment(date, "YYYY-MM-DD").add(1, "days").format("MMM D"),
       classElt: "task_match_content",
-      check: "pending",
+      checked: false,
       priority: priority,
     };
 
@@ -46,43 +48,59 @@ class TaskProfiler {
 
   _updatePendingTasks() {
     const progressPending = document.getElementById("tasks_pending");
+    const squarePending = document.getElementById("square_pend");
 
     const pendingAccount = this._pendingTasks.length;
 
     const totalTasks = this._listTasks.length;
 
-    let width;
+    let width, leftSquare;
 
     if (pendingAccount !== 0) {
       width = Math.floor((pendingAccount / totalTasks) * 100);
+      leftSquare = width - 20;
+      console.log("width pending:", width);
     } else {
       width = 0;
+      leftSquare = 0;
+      console.log("width pending:", width);
     }
 
     progressPending.setAttribute("value", `${width}`);
 
-    console.log("progressPending", progressPending);
     progressPending.setAttribute("data-count", `${pendingAccount}`);
+
+    this._pendingSquare.style.setProperty("--progress-bar", `${leftSquare}%`);
   }
 
   _updateCompletedTasks() {
     const progressCompleted = document.getElementById("tasks_completed");
+    const squareCompleted = document.getElementById("square_complete");
 
     const completedAccount = this._completedTasks.length;
 
     const totalTasks = this._listTasks.length;
 
-    let width;
+    let width, leftSquare;
 
     if (completedAccount !== 0) {
       width = Math.floor((completedAccount / totalTasks) * 100);
+      leftSquare = width - 20;
+      console.log("width complete:", width);
     } else {
       width = 0;
+      leftSquare = 0;
+      console.log("width complete:", width);
     }
 
     progressCompleted.setAttribute("value", `${width}`);
 
     progressCompleted.setAttribute("data-count", `${completedAccount}`);
+    console.log("left", leftSquare);
+    /*  document
+      .getElementById("square_complete")
+      .style.setProperty("--progress-bar", `${leftSquare}%`); */
+    this._completedSquare.style.setProperty("--progress-bar", leftSquare + "%");
   }
 
   _displayTotalTasks() {
