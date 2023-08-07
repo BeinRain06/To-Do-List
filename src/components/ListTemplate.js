@@ -16,7 +16,9 @@ class ListTemplate {
     this._completedList.innerHTML = "";
   }
 
-  _renderList(profilerList, chart, dateValue) {
+  _renderList(profiler, chart, dateValue) {
+    const profilerList = profiler._listTasks;
+
     this._clear();
 
     profilerList.map((item, index) => {
@@ -33,7 +35,7 @@ class ListTemplate {
         //adding checkbox
         const check = document.createElement("input");
         check.className = "circle_match";
-        check.type = "radio";
+        check.type = "checkbox";
         check.id = item.id;
         check.checked = item.checked;
         taskIn.appendChild(check);
@@ -41,19 +43,19 @@ class ListTemplate {
         check.addEventListener("change", () => {
           item.checked = !item.checked;
 
-          let totalTasks = this._constructNewTotalTasks(item);
+          console.log("profilerList", profilerList);
 
-          Storage.tasksAchieveIn(totalTasks);
+          Storage.tasksAchieveIn(profilerList);
 
-          profilerList._listTasks = Storage.getTasks();
+          /*  profilerList._listTasks = Storage.getTasks(); */
+          console.log("check", check);
 
-          profilerList._render();
+          console.log("profiler list after check:", profiler._listTasks);
+
+          profiler._render();
           chart._renderChart();
-          this._renderList(
-            profilerList,
-            chart,
-            moment(item.date).format("MMM D")
-          );
+          this._renderList(profiler, chart, moment(item.date).format("MMM D"));
+          this._noTasks();
         });
 
         // adding label
@@ -72,17 +74,24 @@ class ListTemplate {
         button.style.zIndex = "3";
         taskIn.appendChild(button);
 
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
           const typeAction = "remove";
           console.log("total", item.id);
+
           this._profiler._removeTasks(item.id);
+          this._profiler._listTasks = Storage.getTasks();
+          this._profiler._render();
 
           chart._updateTotalItems(item.priority, typeAction);
           this._renderList(
-            this._profiler._listTasks,
+            this._profiler,
             this._chart,
             moment(item.date).format("MMM D")
           );
+
+          /* this._renderList(profiler, chart, moment(item.date).format("MMM D"));
+          this._noTasks(); */
         });
 
         if (!item.checked) {
@@ -91,9 +100,8 @@ class ListTemplate {
           this._completedList.appendChild(taskIn);
         }
       }
-
-      this._noTasks();
     });
+    this._noTasks();
   }
 
   _noTasks() {
@@ -102,28 +110,6 @@ class ListTemplate {
 
     if (this._completedList.innerHTML === "")
       this._completedList.innerHTML = `<li class="empty_list">0 Completed Tasks</li>`;
-  }
-
-  _constructNewTotalTasks(item) {
-    let newPendingTasks;
-    let newCompletedTasks;
-
-    if (!item.checked) {
-      newPendingTasks = this._profiler._pendingTasks.push(item);
-
-      newCompletedTasks = this._profiler._completedTasks.filter(
-        (task) => task.id !== item.id
-      );
-    } else {
-      newPendingTasks = this._profiler._pendingTasks.filter(
-        (task) => task.id !== item.id
-      );
-      newCompletedTasks = this._profiler._completedTasks.push(item);
-    }
-
-    let totalTasks = newPendingTasks.concat(newCompletedTasks);
-
-    return totalTasks;
   }
 }
 

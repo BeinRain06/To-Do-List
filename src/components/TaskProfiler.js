@@ -52,6 +52,8 @@ class TaskProfiler {
     const progressPending = document.getElementById("tasks_pending");
     const squarePending = document.getElementById("square_pend");
 
+    this._pendingTasks = Storage.savePending();
+
     const pendingAccount = this._pendingTasks.length;
 
     const totalTasks = this._listTasks.length;
@@ -66,6 +68,8 @@ class TaskProfiler {
       leftSquare = 0;
     }
 
+    console.log("pending width arrow", leftSquare);
+
     progressPending.setAttribute("value", `${width}`);
 
     progressPending.setAttribute("data-count", `${pendingAccount}`);
@@ -78,6 +82,8 @@ class TaskProfiler {
   _updateCompletedTasks() {
     const progressCompleted = document.getElementById("tasks_completed");
 
+    this._completedTasks = Storage.saveCompleted();
+
     const completedAccount = this._completedTasks.length;
 
     const totalTasks = this._listTasks.length;
@@ -86,11 +92,13 @@ class TaskProfiler {
 
     if (completedAccount !== 0) {
       width = Math.floor((completedAccount / totalTasks) * 100);
-      leftSquare = width - 20;
+      leftSquare = width - 10;
     } else {
       width = 0;
       leftSquare = 0;
     }
+
+    console.log("completed width arrow", leftSquare);
 
     progressCompleted.setAttribute("value", `${width}`);
 
@@ -112,6 +120,8 @@ class TaskProfiler {
       ".square_arrow .pending_count"
     );
 
+    this._pendingTasks = Storage.savePending();
+
     const pendingAccount = this._pendingTasks.length;
 
     pendingContent.innerHTML = `${pendingAccount}`;
@@ -121,6 +131,8 @@ class TaskProfiler {
     const completedContent = document.querySelector(
       ".square_arrow .completed_count"
     );
+
+    this._completedTasks = Storage.saveCompleted();
 
     const completedAccount = this._completedTasks.length;
 

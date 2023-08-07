@@ -18,6 +18,10 @@ font-family: 'REM', sans-serif; */
   width: 10px;
 }
 
+li {
+  list-style: none;
+}
+
 body[theme="light"] {
   --bg-body: #fcfdf2;
   --bg-white: #fff;
@@ -872,6 +876,10 @@ input:focus {
     display: grid;
     place-items: center;
     z-index: 3;
+  }
+
+  .empty_list {
+    text-align: center;
   }
 
   /* modal Tasks Container*/

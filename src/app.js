@@ -22,7 +22,7 @@ class App {
     this._currentDateCard = document.querySelector(".active_day");
     this._setDateRange();
 
-    /* this.ClearStorage = Storage.clearAll(); */
+    /*  this.ClearStorage = Storage.clearAll(); */
 
     document
       .getElementById("light")
@@ -95,6 +95,10 @@ class App {
     temporaryDateCard.classList.add("active_day");
 
     this._currentDateCard = temporaryDateCard;
+
+    this._template._clear();
+
+    this._template._renderList(this._profiler, this._chart, selectedDate);
   }
 
   _setDateRange() {
@@ -103,9 +107,12 @@ class App {
 
   _addItem(e) {
     e.preventDefault();
+
     const modalTasks = document.getElementById("modalTasks_container");
-    const title = document.getElementById("task_in").value.trim();
-    const date = document.getElementById("date_input").valueAsDate;
+
+    const taskTitle = document.getElementById("task_in").value.trim();
+
+    const taskDate = document.getElementById("date_input").value;
     const priorityGame = Array.from(document.querySelectorAll(".circ_prior"));
     let priority;
 
@@ -113,15 +120,31 @@ class App {
       item.classList.contains("active_priority")
     );
 
-    const dateValue = moment(date).format("MMM D");
-    const profilerList = this._profiler._listTasks;
-    const chart = this._chart;
-
     priority = thisTask.getAttribute("data-priority");
 
-    this._profiler._addTasks(title, date, priority);
+    /* highlight selected date */
+    const selectedDate = moment(taskDate).format("MMM D");
+    console.log("task Date", taskDate);
+    console.log("selected Date", selectedDate);
 
-    this._template._renderList(profilerList, chart, dateValue);
+    let temporaryDateCard = document.querySelector(
+      `.day[data-value="${selectedDate}"]`
+    );
+
+    this._currentDateCard.classList.remove("active_day");
+
+    temporaryDateCard.classList.add("active_day");
+
+    this._currentDateCard = temporaryDateCard;
+
+    /*trigger some update*/
+    this._profiler._addTasks(taskTitle, taskDate, priority);
+
+    this._template._renderList(
+      this._profiler,
+      this._chart,
+      moment(taskDate).format("MMM D")
+    );
 
     this._chart._updateTotalItems(priority, "add");
 

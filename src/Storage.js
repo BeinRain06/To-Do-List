@@ -47,7 +47,6 @@ class Storage {
     const tasks = Storage.getTasks();
 
     const completed = tasks.filter((item) => item.checked === true);
-
     return completed;
   }
 
