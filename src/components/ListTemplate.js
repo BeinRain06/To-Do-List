@@ -47,11 +47,6 @@ class ListTemplate {
 
           Storage.tasksAchieveIn(profilerList);
 
-          /*  profilerList._listTasks = Storage.getTasks(); */
-          console.log("check", check);
-
-          console.log("profiler list after check:", profiler._listTasks);
-
           profiler._render();
           chart._renderChart();
           this._renderList(profiler, chart, moment(item.date).format("MMM D"));
@@ -79,11 +74,13 @@ class ListTemplate {
           const typeAction = "remove";
           console.log("total", item.id);
 
+          this._chart._updateTotalItems(item.priority, typeAction);
+
           this._profiler._removeTasks(item.id);
           this._profiler._listTasks = Storage.getTasks();
           this._profiler._render();
 
-          chart._updateTotalItems(item.priority, typeAction);
+          chart._renderChart();
           this._renderList(
             this._profiler,
             this._chart,

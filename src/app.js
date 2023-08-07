@@ -148,6 +148,8 @@ class App {
 
     this._chart._updateTotalItems(priority, "add");
 
+    /* this._chart._updateTotalItems(); */
+
     modalTasks.style.display = "none";
   }
 
