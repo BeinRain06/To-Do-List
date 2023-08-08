@@ -6,7 +6,6 @@ class DateSettings {
     this._setCurrentdate();
     this._setWeekRange();
     this._renderDateCards();
-    /* this_setDate(); */
   }
 
   /* public method*/
@@ -39,12 +38,13 @@ class DateSettings {
     dayIndex.map((item, i) => {
       let day = document.createElement("li");
 
+      /*each day selection*/
       let current = moment().add(i, "days");
 
       day.className = i === 0 ? "day active_day" : "day";
 
       day.setAttribute("id", i);
-      /*   day.setAttribute("data-value", `${current.format("dddd, MMMM Do YYYY")}`); */
+
       day.setAttribute("data-value", `${current.format("MMM D")}`);
 
       day.innerHTML = `<p class="day_name">${current
@@ -55,12 +55,6 @@ class DateSettings {
       currentWeek.appendChild(day);
     });
   }
-
-  /* _setDate() {
-    this._setCurrentdate();
-    this._setWeekRange();
-    this._renderDateCards();
-  } */
 }
 
 export default DateSettings;

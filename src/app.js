@@ -6,7 +6,6 @@ import "@fortawesome/fontawesome-free/js/brands"; */
 import DateSettings from "./components/DateSettings";
 import TaskProfiler from "./components/TaskProfiler";
 import ListTemplate from "./components/ListTemplate";
-import PriorityChart from "./components/PriorityChart";
 import Storage from "./Storage";
 import moment from "moment";
 import "./css/bootstrap.css";
@@ -17,12 +16,9 @@ class App {
     this._dateTemplate = new DateSettings();
     this._profiler = new TaskProfiler();
     this._template = new ListTemplate();
-    this._chart = new PriorityChart();
     this._dateInput = document.getElementById("date_input");
     this._currentDateCard = document.querySelector(".active_day");
     this._setDateRange();
-
-    /*  this.ClearStorage = Storage.clearAll(); */
 
     document
       .getElementById("light")
@@ -69,7 +65,7 @@ class App {
 
   _showModalTask(matter, e) {
     e.preventDefault();
-    console.log(e.currentTarget);
+
     const modalTasks = document.getElementById("modalTasks_container");
 
     matter === "add"
@@ -80,11 +76,7 @@ class App {
   _scheduleDay(e) {
     const taskDay = e.target;
 
-    console.log("total Tasks", this._profiler._listTasks);
-
     const selectedDate = taskDay.getAttribute("data-value");
-
-    console.log("selected Date", selectedDate);
 
     let temporaryDateCard = document.querySelector(
       `.day[data-value="${selectedDate}"]`
@@ -98,7 +90,10 @@ class App {
 
     this._template._clear();
 
-    this._template._renderList(this._profiler, this._chart, selectedDate);
+    const profiler = Storage.getTasks();
+
+    /*re-render based on list Tasks stored */
+    this._template._renderList(profiler, selectedDate);
   }
 
   _setDateRange() {
@@ -124,8 +119,6 @@ class App {
 
     /* highlight selected date */
     const selectedDate = moment(taskDate).format("MMM D");
-    console.log("task Date", taskDate);
-    console.log("selected Date", selectedDate);
 
     let temporaryDateCard = document.querySelector(
       `.day[data-value="${selectedDate}"]`
@@ -141,22 +134,15 @@ class App {
     this._profiler._addTasks(taskTitle, taskDate, priority);
 
     this._template._renderList(
-      this._profiler,
-      this._chart,
+      this._profiler._listTasks,
       moment(taskDate).format("MMM D")
     );
-
-    this._chart._updateTotalItems(priority, "add");
-
-    /* this._chart._updateTotalItems(); */
 
     modalTasks.style.display = "none";
   }
 
   _priorityGame(e) {
     const priorityList = Array.from(document.querySelectorAll(".circ_prior"));
-
-    console.log(e.target.parentElement);
 
     if (
       e.target.parentElement.classList.contains("active_priority") ||

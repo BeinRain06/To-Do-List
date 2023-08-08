@@ -1,14 +1,14 @@
 import TaskProfiler from "./TaskProfiler";
-import PriorityChart from "./PriorityChart";
 import Storage from "../Storage";
 import moment from "moment";
 
 class ListTemplate {
   constructor() {
     this._profiler = new TaskProfiler();
-    this._chart = new PriorityChart();
     this._pendingList = document.getElementById("tasks_day_pending");
     this._completedList = document.getElementById("tasks_day_completed");
+    this._dateValue = moment().format("MMM D");
+    this._renderList(this._profiler._listTasks, this._dateValue);
   }
 
   _clear() {
@@ -16,14 +16,14 @@ class ListTemplate {
     this._completedList.innerHTML = "";
   }
 
-  _renderList(profiler, chart, dateValue) {
-    const profilerList = profiler._listTasks;
-
+  _renderList(profiler, dateValue) {
+    /*clear all pending and completad Tasks before processing */
     this._clear();
 
-    profilerList.map((item, index) => {
+    profiler.map((item, index) => {
       const itemDate = moment(item.date).format("MMM D");
 
+      /*dateValue taken from dateInput inside app.js */
       if (itemDate === dateValue) {
         const taskIn = document.createElement("li");
         taskIn.id = item.id;
@@ -43,13 +43,13 @@ class ListTemplate {
         check.addEventListener("change", () => {
           item.checked = !item.checked;
 
-          console.log("profilerList", profilerList);
-
-          Storage.tasksAchieveIn(profilerList);
+          Storage.tasksAchieveIn(profiler);
 
           profiler._render();
-          chart._renderChart();
-          this._renderList(profiler, chart, moment(item.date).format("MMM D"));
+          /*recursive call*/
+          this._renderList(profiler, moment(item.date).format("MMM D"));
+
+          /*check to update completed and pending list in th UI */
           this._noTasks();
         });
 
@@ -72,23 +72,19 @@ class ListTemplate {
         button.addEventListener("click", (e) => {
           e.preventDefault();
           const typeAction = "remove";
-          console.log("total", item.id);
 
-          this._chart._updateTotalItems(item.priority, typeAction);
-
-          this._profiler._removeTasks(item.id);
+          this._profiler._removeTasks(item);
           this._profiler._listTasks = Storage.getTasks();
           this._profiler._render();
 
-          chart._renderChart();
+          /*recursive call*/
           this._renderList(
-            this._profiler,
-            this._chart,
+            this._profiler._listTasks,
             moment(item.date).format("MMM D")
           );
 
-          /* this._renderList(profiler, chart, moment(item.date).format("MMM D"));
-          this._noTasks(); */
+          /*check to update completed and pending list in th UI */
+          this._noTasks();
         });
 
         if (!item.checked) {
@@ -98,6 +94,8 @@ class ListTemplate {
         }
       }
     });
+
+    /* others items initialization UI show */
     this._noTasks();
   }
 
