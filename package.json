@@ -1,11 +1,16 @@
 {
   "name": "todo-list",
   "version": "1.0.0",
+  "repository": {
+    "url": "githttps://github.com/BeinRain06/To-Do-List.git"
+  },
   "description": "schedule your week wisely",
   "main": "app.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Gerard",
   "license": "ISC",
@@ -17,6 +22,7 @@
     "babel-loader": "^9.1.3",
     "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
+    "gh-pages": "^6.0.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",

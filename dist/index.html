@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Playfair+Display:wght@500&family=REM&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>To-do-List</title>
+  <script defer src="bundle.js"></script><link href="main.css" rel="stylesheet"></head>
+  <body id="view_app" theme="light">
+    <div
+      id="modal_calendar_container"
+      class="modal_calendar_container flex_row_center"
+    >
+      <div id="modal_calendar" class="modal_calendar"></div>
+    </div>
+    <div id="modalTasks_container" class="modalTasks_container">
+      <div class="modalTasks_wrapper">
+        <h3 class="gen_title_modal">Add Task</h3>
+        <div class="modalTasks_content">
+          <form id="task_form" class="task_form">
+            <div class="input_content">
+              <label for="task_in" class="input_label blue_title">
+                Task Title</label
+              >
+              <input
+                type="text"
+                name="task_in"
+                id="task_in"
+                class="input_title"
+              />
+            </div>
+            <div class="input_content">
+              <label for="date_selected" class="input_label blue_title">
+                Date</label
+              >
+              <input
+                type="date"
+                name="date"
+                id="date_input"
+                class="input_date"
+                min=""
+                max=""
+              />
+            </div>
+            <div id="wrapper_priority" class="wrapper_priority">
+              <label for="prority" class="input_label blue_title">
+                Priority:</label
+              >
+
+              <div class="box_priority">
+                <div
+                  id="high_priority"
+                  class="outer_circle circ_prior"
+                  data-priority="high"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+                <div
+                  id="medium_priority"
+                  class="outer_circle circ_prior"
+                  data-priority="medium"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+                <div
+                  id="normal_priority"
+                  class="outer_circle circ_prior active_priority"
+                  data-priority="normal"
+                >
+                  <div class="inner_circle"></div>
+                </div>
+              </div>
+            </div>
+            <div class="confirm_selection">
+              <button type="submit" id="btn_submit" class="btn_submit">
+                Add
+              </button>
+
+              <button id="btn_cancel" class="btn_cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <header>
+      <nav id="to_do_header" class="to_do_header">
+        <div class="nav_left flex_row_center">
+          <i class="fa-solid fa-bars fa-1x"></i>
+          <span class="title_todo">To-do List</span>
+        </div>
+        <div class="nav_right flex_row_center">
+          <ul id="light_dark" class="light_dark" data-color="0">
+            <button id="light" class="btn btn_light_mode current_mode">
+              L
+            </button>
+            <button id="dark" class="btn btn_dark_mode">D</button>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="tasks_boards" class="gen_wrapper">
+        <div class="content_section">
+          <div class="tasks_screen tasks_panel">
+            <div class="account_tasks flex_column_center">
+              <p class="total_tasks flex_row_center">
+                <span id="total_tasks"></span>
+                <span class="icon_totalTask"
+                  ><i class="fa-solid fa-puzzle-piece"></i>
+                </span>
+              </p>
+
+              <span class="litteral_title">Total Tasks</span>
+            </div>
+            <div class="flow_tasks">
+              <div class="completed_tasks">
+                <div class="load_content flex_column_center">
+                  <ul class="drawn_tasks">
+                    <i class="fa-solid fa-book"></i>
+                    <p class="label_tasks">Completed</p>
+                  </ul>
+                  <div class="wrap_progress">
+                    <progress
+                      id="tasks_completed"
+                      class="tasks_completed progress_bar"
+                      value=""
+                      max="100"
+                      data-count="0"
+                    ></progress>
+                    <div
+                      id="square_pend"
+                      class="square_arrow square_arrow_2"
+                      data-count="0"
+                    >
+                      <p class="completed_count"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pending_tasks">
+                <div class="load_content flex_column_center">
+                  <ul class="drawn_tasks">
+                    <i class="fa-solid fa-list"></i>
+                    <p class="label_tasks">Pending</p>
+                  </ul>
+                  <div class="wrap_progress">
+                    <progress
+                      id="tasks_pending"
+                      class="tasks_pending progress_bar"
+                      value=""
+                      max="100"
+                      data-count="0"
+                    ></progress>
+                    <div
+                      id="square_complete"
+                      class="square_arrow square_arrow_1"
+                      data-count="0"
+                    >
+                      <p class="pending_count"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="current_branch_week tasks_panel">
+            <div class="title_week">This Week</div>
+            <p id="week_range" class="week_range"></p>
+            <div class="flow_container flex_row_center">
+              <div class="flow_chart flex_row_center">
+                <div class="high_chart chart_size">
+                  <span class="account_priority"></span>
+                  <div class="chart_priority">
+                    <div id="high_diagram" class="high_diagram"></div>
+                    <span class="type_priority">HIGH</span>
+                  </div>
+                </div>
+                <div class="medium_chart chart_size">
+                  <span class="account_priority"></span>
+                  <div class="chart_priority">
+                    <div id="medium_diagram" class="medium_diagram"></div>
+                    <span class="type_priority">MEDIUM</span>
+                  </div>
+                </div>
+                <div class="normal_chart chart_size">
+                  <span class="account_priority"></span>
+                  <div class="chart_priority">
+                    <div id="normal_diagram" class="normal_diagram"></div>
+                    <span class="type_priority">NORMAL</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flow_caption">
+                <div class="elt_capt">
+                  <span class="circle_symbol red_circle"></span> HIGH
+                </div>
+                <div class="elt_capt">
+                  <span class="circle_symbol yellow_circle"></span> MEDIUM
+                </div>
+                <div class="elt_capt">
+                  <span class="circle_symbol blue_circle"></span> NORMAL
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="adding_tasks adding_tasks">
+        <div class="driving_day">
+          <p class="label_day blue_title">Today</p>
+          <p id="current_day" class="current_day"></p>
+        </div>
+
+        <button id="add_task" class="add_task">
+          <span class="icon_plus flex_row_center"
+            ><i class="fa-solid fa-plus"></i
+          ></span>
+          <span class="label_add">Add Task</span>
+        </button>
+      </section>
+
+      <section id="calendar_container" class="calendar_container">
+        <ul id="list_days_week" class="list_days_week"></ul>
+      </section>
+      <section id="list_container" class="list_container">
+        <div id="pending_card" class="list_content">
+          <h5 class="list_title">Pending</h5>
+
+          <div id="tasks_day_pending" class="holding_tasks flex_column_center">
+            <p class="no_tasks flex_row_center"><span>0</span> Pending Tasks</p>
+          </div>
+        </div>
+        <div id="completed_card" class="list_content">
+          <h5 class="list_title">Done</h5>
+
+          <div id="tasks_day_completed" class="holding_tasks">
+            <p class="no_tasks flex_row_center">
+              <span>0</span> Completed Tasks
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
